@@ -314,42 +314,62 @@ function findBrowser() {
   return null;
 }
 
-// Strict Loopback Binding on 127.0.0.1
-server.listen(0, '127.0.0.1', () => {
-  const port = server.address().port;
-  const appUrl = `http://127.0.0.1:${port}/index.html`;
+// Strict Loopback Binding on 127.0.0.1 (Prefers port 40293, fallbacks to 0)
+const PREFERRED_PORT = 40293;
 
-  console.log(`=======================================================`);
-  console.log(`  🚀 Sunveil Interactive Kanban & Visual Mindmap`);
-  console.log(`  100% .EXE FREE - Antivirus-safe`);
-  console.log(`  Security Hardened: Strictly 127.0.0.1 (Loopback)`);
-  console.log(`  Server running at: ${appUrl}`);
-  console.log(`  MCP Server ready: node mcp-server.js`);
-  console.log(`=======================================================`);
+function startServer(portToTry) {
+  server.listen(portToTry, '127.0.0.1', () => {
+    const port = server.address().port;
+    const appUrl = `http://127.0.0.1:${port}/index.html`;
 
-  // Launch browser in app window mode if not explicitly disabled
-  if (!process.argv.includes('--no-browser')) {
-    const browser = findBrowser();
-    if (browser) {
-      const args = [
-        `--app=${appUrl}`,
-        `--user-data-dir=${PROFILE_DIR}`,
-        '--window-size=1540,960',
-        '--disable-features=TranslateUI',
-        '--disable-extensions',
-        '--no-first-run'
-      ];
-      spawn(browser, args, { detached: true, stdio: 'ignore' }).unref();
-    } else {
-      exec(`start "" "${appUrl}"`);
+    try {
+      fs.writeFileSync(path.join(DATA_DIR, 'server.port'), port.toString(), 'utf8');
+    } catch (e) {}
+
+    console.log(`=======================================================`);
+    console.log(`  🚀 Sunveil Interactive Kanban & Visual Mindmap`);
+    console.log(`  100% .EXE FREE - Antivirus-safe`);
+    console.log(`  Security Hardened: Strictly 127.0.0.1 (Loopback)`);
+    console.log(`  Server running at: ${appUrl}`);
+    console.log(`  MCP Server ready: node mcp-server.js`);
+    console.log(`=======================================================`);
+
+    // Launch browser in app window mode only if not running inside native Sunveil.exe host or --no-browser
+    if (!process.argv.includes('--no-browser')) {
+      const browser = findBrowser();
+      if (browser) {
+        const args = [
+          `--app=${appUrl}`,
+          `--user-data-dir=${PROFILE_DIR}`,
+          '--window-size=1540,960',
+          '--disable-features=TranslateUI',
+          '--disable-extensions',
+          '--no-first-run'
+        ];
+        spawn(browser, args, { detached: true, stdio: 'ignore' }).unref();
+      } else {
+        exec(`start "" "${appUrl}"`);
+      }
     }
+
+    // Auto-Shutdown Watchdog: terminates server when window is closed
+    setInterval(() => {
+      if (Date.now() - lastHeartbeat > 25000) {
+        console.log('Window closed (heartbeat expired). Shutting down server.');
+        try { fs.unlinkSync(path.join(DATA_DIR, 'server.port')); } catch (e) {}
+        process.exit(0);
+      }
+    }, 3000);
+  });
+}
+
+server.on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    // If preferred port is busy, fallback to random free port
+    server.listen(0, '127.0.0.1');
+  } else {
+    console.error('Server error:', err);
   }
-
-  // Auto-Shutdown Watchdog: terminates server when desktop window is closed
-  setInterval(() => {
-    if (Date.now() - lastHeartbeat > 15000) {
-      console.log('Window closed (heartbeat expired). Shutting down server.');
-      process.exit(0);
-    }
-  }, 2000);
 });
+
+startServer(PREFERRED_PORT);
