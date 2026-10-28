@@ -1,0 +1,37 @@
+{
+  "name": "sunveil-kanban",
+  "version": "1.0.0",
+  "description": "Interactive Kanban Board with Visual Infinite Mindmap, Freehand Whiteboard, Model Context Protocol (MCP) AI Server & Multi-Language Support.",
+  "main": "server.js",
+  "bin": {
+    "sunveil-mcp": "./mcp-server.js"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "mcp": "node mcp-server.js",
+    "server": "node server.js --no-browser"
+  },
+  "keywords": [
+    "kanban",
+    "mindmap",
+    "whiteboard",
+    "mcp",
+    "model-context-protocol",
+    "claude",
+    "ai-assistant",
+    "antigravity",
+    "cursor",
+    "productivity",
+    "i18n",
+    "open-source"
+  ],
+  "author": "Sunveil Contributors",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/sunveil-kanban.git"
+  }
+}
