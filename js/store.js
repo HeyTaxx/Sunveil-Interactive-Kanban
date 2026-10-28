@@ -119,28 +119,28 @@ class DataStore {
     const card3Id = 'card-demo-3';
 
     return {
-      title: '🚀 Projekt Arbeitsbereich',
+      title: '🚀 Project Workspace',
       columns: [
-        { id: colBacklogId, title: '💡 Ideen & Konzepte', color: '#6366f1' },
-        { id: colProgressId, title: '⚡ In Arbeit', color: '#38bdf8' },
-        { id: colReviewId, title: '🔍 Review & Test', color: '#f59e0b' },
-        { id: colDoneId, title: '✅ Erledigt', color: '#10b981' }
+        { id: colBacklogId, title: '💡 Ideas & Concepts', color: '#6366f1' },
+        { id: colProgressId, title: '⚡ In Progress', color: '#38bdf8' },
+        { id: colReviewId, title: '🔍 Review & Testing', color: '#f59e0b' },
+        { id: colDoneId, title: '✅ Done', color: '#10b981' }
       ],
       cards: [
         {
           id: cardDemoId,
           columnId: colProgressId,
-          title: 'Design & Mindmap Workflow',
+          title: 'Visual Mindmap & Canvas Demo',
           order: 0,
-          tags: [{ name: 'UI / UX', color: '#6366f1' }, { name: 'Interaktiv', color: '#38bdf8' }],
+          tags: [{ name: 'UI / UX', color: '#6366f1' }, { name: 'Interactive', color: '#38bdf8' }],
           mindmap: {
             nodes: [
               {
                 id: 'center-root',
                 isCenter: true,
                 type: 'bubble',
-                title: 'Design & Mindmap Workflow',
-                content: 'Zentrale Mindmap für dieses Thema. Alle Notizen & Skizzen werden hier gesammelt.',
+                title: 'Visual Mindmap & Canvas Demo',
+                content: 'Central mindmap for this task. All notes, links, and sketches are collected here.',
                 x: 4800,
                 y: 4800,
                 color: '#6366f1'
@@ -148,8 +148,8 @@ class DataStore {
               {
                 id: 'node-sub-1',
                 type: 'bubble',
-                title: '🎨 Farbschema & Stile',
-                content: 'Darkmode mit Akzenten in Indigo, Sky Blue und Emerald.',
+                title: '🎨 Color Palette & Themes',
+                content: 'Sleek dark mode with accents in Indigo, Sky Blue, and Emerald.',
                 x: 4400,
                 y: 4680,
                 color: '#38bdf8'
@@ -157,8 +157,8 @@ class DataStore {
               {
                 id: 'node-sub-2',
                 type: 'bubble',
-                title: '✏️ Freihand & Skizzen',
-                content: 'Mit dem Stift-Werkzeug können handschriftliche Pfeile, Texte und Skizzen frei gezeichnet werden!',
+                title: '✏️ Freehand Sketching',
+                content: 'Use the pen tool to handwrite notes, sketch arrows, and draw diagrams freely!',
                 x: 5200,
                 y: 4680,
                 color: '#10b981'
@@ -166,9 +166,9 @@ class DataStore {
               {
                 id: 'node-sub-3',
                 type: 'link',
-                title: 'Dokumentation & Vorlage',
+                title: 'Web Documentation & Docs',
                 url: 'https://developer.mozilla.org',
-                content: 'Offizielle Web-Dokumentation & Ressourcen',
+                content: 'Embedded links and web resources inside mindmap bubbles.',
                 x: 4800,
                 y: 5120,
                 color: '#f59e0b'
@@ -207,7 +207,7 @@ class DataStore {
         {
           id: card2Id,
           columnId: colBacklogId,
-          title: 'Lokales Dateisystem & Performance',
+          title: 'Local Architecture & Performance',
           order: 0,
           tags: [{ name: 'Core', color: '#f59e0b' }],
           mindmap: {
@@ -216,8 +216,8 @@ class DataStore {
                 id: 'center-root',
                 isCenter: true,
                 type: 'bubble',
-                title: 'Lokales Dateisystem & Performance',
-                content: 'Speichert alles blitzschnell im lokalen Browser-Speicher und als Datei auf der Festplatte.',
+                title: 'Local Architecture & Performance',
+                content: 'Saves instantly in local browser storage and synchronizes to local disk files with zero dependencies.',
                 x: 4800,
                 y: 4800,
                 color: '#f59e0b'
@@ -232,7 +232,7 @@ class DataStore {
           columnId: colDoneId,
           title: 'Edge Tab Integration',
           order: 0,
-          tags: [{ name: 'Fertig', color: '#10b981' }],
+          tags: [{ name: 'Done', color: '#10b981' }],
           mindmap: {
             nodes: [
               {
@@ -240,7 +240,7 @@ class DataStore {
                 isCenter: true,
                 type: 'bubble',
                 title: 'Edge Tab Integration',
-                content: 'Schnelles Umschalten zwischen dem Haupt-Board und mehreren geöffneten Karten.',
+                content: 'Quickly switch between the master Kanban board and multiple open card mindmaps.',
                 x: 4800,
                 y: 4800,
                 color: '#10b981'
@@ -273,7 +273,8 @@ class DataStore {
 
   // Auto-Save: Debounced so typing doesn't stutter, saves immediately to disk & localStorage
   save() {
-    this.updateStatusIndicator('Speichere...');
+    const text = window.i18n ? window.i18n.t('status_saving') : 'Saving...';
+    this.updateStatusIndicator(text);
     clearTimeout(this.saveDebounceTimer);
     this.saveDebounceTimer = setTimeout(() => {
       this.saveImmediate();
@@ -301,10 +302,10 @@ class DataStore {
           this.lastLoadedVersion = resJson.version;
         }
       }
-      this.updateStatusIndicator('Gespeichert');
+      this.updateStatusIndicator(window.i18n ? window.i18n.t('status_saved') : 'Saved');
     } catch (e) {
       // In standalone browser mode
-      this.updateStatusIndicator('Gespeichert (Lokal)');
+      this.updateStatusIndicator(window.i18n ? window.i18n.t('status_saved_local') : 'Saved (Local)');
     }
   }
 
@@ -313,7 +314,7 @@ class DataStore {
     const statusDot = document.querySelector('#save-status .status-dot');
     if (statusText && statusDot) {
       statusText.textContent = text;
-      if (text.startsWith('Speichere')) {
+      if (text.toLowerCase().includes('sav') || text.toLowerCase().includes('speicher')) {
         statusDot.style.background = '#f59e0b';
         statusDot.style.boxShadow = '0 0 6px #f59e0b';
       } else {

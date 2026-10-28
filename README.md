@@ -1,120 +1,100 @@
-# 🚀 Sunveil Interactive Kanban & Visual Mindmap
+# Sunveil — Interactive Kanban & Visual Mindmap
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-brightgreen.svg)](#)
-[![Zero Dependencies](https://img.shields.io/badge/Dependencies-0%20(Standard%20Lib)-orange.svg)](#)
-[![Security Hardened](https://img.shields.io/badge/Security-Loopback%20Isolated-success.svg)](#security--remote-access-protection)
-[![MCP Ready](https://img.shields.io/badge/MCP-Claude%20%7C%20Antigravity%20%7C%20Cursor-purple.svg)](#model-context-protocol-mcp--ai-integration)
-
-A privacy-first, lightning-fast, zero-dependency desktop productivity workstation. Seamlessly fuses **Trello-style Kanban boards**, **infinite visual mindmaps**, a **freehand whiteboard canvas**, and an official **Model Context Protocol (MCP) AI server**.
+> A local-first desktop workspace that brings together a Trello-like Kanban board, per-card visual mindmaps, a freehand drawing canvas, and a native Model Context Protocol (MCP) server for AI assistants.
+> 
+> 🤖 **Built with AI**: This entire project was created, designed, and coded collaboratively using AI agentic pair-programming (Google Antigravity).
 
 ---
 
-## ✨ Features
+## Screenshots
 
-### 1. 📋 Interactive Kanban Board
-- **Fluid Drag & Drop:** Move cards between phases or reorder cards and columns freely.
-- **Dynamic Indicators:** Every card shows live counters for mindmap bubbles, linked resources, and freehand sketches.
-- **Instant Search:** Filter cards and tags across all phases in real time.
-- **Direct Inline Editing:** Rename columns and card titles with auto-saving.
+### 1. Kanban Board
+*Interactive columns, drag & drop cards, live node/sketch indicators, and quick search.*
+![Kanban Board](docs/screenshots/kanban-board.png)
 
-### 2. 🧠 Visual Mindmap Canvas (Per Card)
-- **Deep-Dive on Double-Click:** Double-clicking any card opens its private infinite visual mindmap canvas.
-- **Center Theme Node:** Automatically centered on the task title.
-- **Thought Bubbles & Links:** Create thought clusters, connect nodes with dynamic curved arrows, attach external URLs, and drop images.
-- **Boundary-Anchored Connectors:** Connection lines anchor precisely to outer bubble perimeters without clipping through text boxes.
+### 2. Visual Mindmap & Whiteboard Canvas
+*Double-click any card to dive into its dedicated canvas with thought bubbles, curved connectors, web links, and freehand drawing tools.*
+![Mindmap Canvas](docs/screenshots/mindmap-view.png)
 
-### 3. 🎨 Freehand Whiteboard & Drawing Engine
-- **Pen & Arrow Tools:** Handwrite notes, sketch diagrams, and draw directional flowcharts.
-- **Highlighter & Eraser:** Semi-transparent highlighter marker and stroke-based eraser.
-- **Custom Palettes:** Carefully chosen modern dark-mode accent colors and variable stroke widths.
-- **Export to Image:** Export your mindmaps and whiteboard sketches directly as high-resolution PNGs.
-
-### 4. 🌍 Multi-Language Support (i18n)
-- Switch instantly via the header dropdown between:
-  - 🇩🇪 **Deutsch** (German)
-  - 🇬🇧 **English** (English)
-  - 🇪🇸 **Español** (Spanish)
-  - 🇫🇷 **Français** (French)
-- Automatically saves and restores your preferred language across sessions.
-
-### 5. 📑 Edge-Style Tab Navigation
-- Native tabbed experience at the top of the window.
-- Switch seamlessly between the master Kanban board and multiple open card mindmaps without losing state.
+### 3. Model Context Protocol (MCP) & AI Integration
+*Connect Claude Desktop, Antigravity, or Cursor to let AI assistants read, create, and organize your cards and mindmaps in real time.*
+![MCP Tools](docs/screenshots/mcp-integration.png)
 
 ---
 
-## 🔒 Security & Remote Access Protection
+## Why Sunveil?
 
-Sunveil is designed with a defense-in-depth security model to ensure your local workstation and sensitive boards can **never be accessed or hijacked over the network or through internet ports**:
-
-1. **Strict Loopback Binding (`127.0.0.1` Only):**
-   - The server binds exclusively to `127.0.0.1` on an unprivileged, dynamically assigned port.
-   - It **never binds to `0.0.0.0` or public network adapters**, rendering the port unreachable by other computers, phones, or devices on your local WiFi / LAN.
-
-2. **DNS Rebinding & Host Validation:**
-   - Validates the `Host` HTTP header against `127.0.0.1` and `localhost`. External domains or malicious DNS rebinding setups cannot reach or query the server.
-
-3. **Anti-CSRF & Cross-Site Request Hardening:**
-   - Cross-origin requests from external internet websites are blocked.
-   - Inspects `Origin`, `Referer`, and `Sec-Fetch-Site: cross-site` headers to ensure arbitrary web pages visited in your everyday browser cannot read or tamper with your boards.
-
-4. **Directory & Path Traversal Prevention:**
-   - Canonicalized path resolution prevents `../` path traversal attacks.
-   - Explicitly blocks access to internal directories (`/data/profile`, `/.git`, `node_modules`, `/.env`).
-
-5. **Denial-of-Service (DoS) Payload Guard:**
-   - Enforces a 25 MB payload limit on incoming requests to prevent memory exhaustion attacks.
-
-6. **100% .EXE Free:**
-   - Runs directly on standard Node.js or Windows PowerShell. No compiled `.exe` files that trigger false-positive antivirus quarantines or deletions.
+Most task managers are either simple checklists or heavy, bloated web apps. Sunveil gives you:
+- **Instant local performance**: 0 npm dependencies, boots in milliseconds.
+- **100% .EXE Free**: Runs through Node.js or PowerShell. No unsigned binary executables that trigger false-positive antivirus warnings or deletions.
+- **Visual thinking per task**: Every task card has its own infinite canvas behind it. Double-click to brainstorm with bubbles, arrows, external links, and drawings.
+- **AI-native**: Includes a full Model Context Protocol server (`mcp-server.js`) so AI tools can query your board or add ideas live on your screen.
+- **Multi-language**: Built-in support for English (default), German, Spanish, and French.
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Windows (One-Click)
-Simply double-click:
-- **`Start-Kanban.cmd`** (Starts using Node.js or PowerShell and opens a native standalone app window)
+Double-click `Start-Kanban.cmd`. It launches the app in a clean, standalone desktop window.
 
-### Node.js (Cross-Platform: Windows, macOS, Linux)
+### Command Line (Cross-Platform: Windows, macOS, Linux)
 ```bash
 # Clone the repository
 git clone https://github.com/your-username/sunveil-kanban.git
 cd sunveil-kanban
 
-# Start the application
+# Start
 npm start
 ```
-*No `npm install` needed! Sunveil uses 100% Node.js standard libraries.*
+*(No `npm install` required — runs purely on the Node.js standard library).*
 
 ---
 
-## 🤖 Model Context Protocol (MCP) & AI Integration
+## Features
 
-Sunveil includes a complete **Model Context Protocol (MCP)** server (`mcp-server.js`) conforming to the official 2024-11-05 MCP specification. This lets AI agents (Claude Desktop, Google Antigravity, Cursor, Cline, Windsurf) view and manipulate your Kanban board and mindmaps autonomously.
+- **Kanban Board**: Drag-and-drop columns and cards, live card counts for notes & sketches, real-time search filter, and instant inline editing.
+- **Visual Mindmap**: Double-click any card to open its private canvas. Connect nodes with clean curved lines that anchor to bubble borders.
+- **Freehand Whiteboard**: Pen, arrow, highlighter, and eraser tools with custom colors and stroke widths. Export any canvas as PNG.
+- **Edge-Style Tabs**: Keep the main board and multiple task mindmaps open side by side without losing state.
+- **Auto-Sync & Local Storage**: Changes save instantly to `data/kanban_data.json` and `localStorage`.
 
-### Claude Desktop Configuration
-Add this to your `%APPDATA%\Claude\claude_desktop_config.json` (Windows) or `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS):
+---
+
+## 🔒 Security & Local Isolation
+
+The server runs locally on your machine and has been defensively hardened:
+- **Strict Loopback Binding (`127.0.0.1`)**: Listens only on `127.0.0.1` on a dynamic port. Never binds to `0.0.0.0` or local network adapters (cannot be accessed from other devices on your Wi-Fi/LAN).
+- **DNS Rebinding Protection**: Rejects requests with unexpected `Host` headers.
+- **Cross-Site Request Blocking**: Prevents external websites visited in your everyday browser from making cross-origin requests (`Sec-Fetch-Site: cross-site`) to read or alter your boards.
+- **Path Traversal Shield**: Canonical path resolution blocks `../` directory traversal and denies access to `.git`, `.env`, and session data.
+- **Payload Limits**: 25 MB payload limit prevents memory exhaustion attacks.
+
+---
+
+## 🤖 MCP Setup (Claude Desktop & IDEs)
+
+To let Claude Desktop or your IDE interact with your board, add the MCP server:
+
+### Claude Desktop (`claude_desktop_config.json`)
 ```json
 {
   "mcpServers": {
     "sunveil-kanban": {
       "command": "node",
-      "args": ["<PATH_TO_PROJECT>/mcp-server.js"]
+      "args": ["<FULL_PATH_TO_PROJECT>/mcp-server.js"]
     }
   }
 }
 ```
 
-### Antigravity / Cursor / Cline Configuration
-In your `mcp_config.json`:
+### Antigravity / Cursor (`mcp_config.json`)
 ```json
 {
   "mcpServers": {
     "sunveil-kanban": {
       "command": "node",
-      "args": ["<PATH_TO_PROJECT>/mcp-server.js"]
+      "args": ["<FULL_PATH_TO_PROJECT>/mcp-server.js"]
     }
   }
 }
@@ -123,66 +103,33 @@ In your `mcp_config.json`:
 ### Available MCP Tools:
 | Tool | Description |
 |------|-------------|
-| `kanban_get_board` | Get complete board structure (columns, cards, stats, tags). |
-| `kanban_list_columns` | List all columns with IDs, names, and card counts. |
-| `kanban_list_cards` | Search or filter cards by phase or text query. |
-| `kanban_get_card` | Retrieve detailed card data including mindmap bubbles and sketches. |
-| `kanban_create_card` | Add a new task card and initialize its visual mindmap. |
-| `kanban_update_card` | Update card title, notes, or tags. |
-| `kanban_move_card` | Move a card between phases or reorder in a column. |
-| `kanban_delete_card` | Remove a card by its ID. |
+| `kanban_get_board` | Retrieve the complete board state (columns, cards, counters, tags). |
+| `kanban_create_card` | Create a new task in any column. |
+| `kanban_move_card` | Move a card between columns or reorder it. |
+| `kanban_add_mindmap_node` | Add a thought bubble, link, or note to a card's mindmap. |
+| `kanban_get_card` | Inspect detailed card info with all its bubbles and drawings. |
+| `kanban_list_cards` | Search and filter cards by column or query. |
+| `kanban_update_card` | Update title, notes, or tags. |
+| `kanban_delete_card` | Delete a card by ID. |
+| `kanban_list_columns` | List all columns with IDs, names, and colors. |
 | `kanban_create_column` | Add a new phase column to the board. |
-| `kanban_add_mindmap_node` | Add thought bubbles, links, or notes to a card's mindmap. |
-
-⚡ **Live 2-Way Synchronization:** When an AI creates or modifies a card via MCP, the change appears on your screen **in real time**!
 
 ---
 
-## ⌨️ Keyboard Shortcuts
+## Keyboard Shortcuts
 
-| Shortcut | Action |
-|----------|--------|
-| `Ctrl + S` | Force save board to local storage and disk |
-| `Escape` | Switch back to the master Kanban board |
-| `V` | Select & Move tool (Mindmap) |
-| `H` / `Space` | Pan / Hand tool (Mindmap canvas) |
-| `P` | Freehand drawing pen |
-| `A` | Arrow connection tool |
-| `E` | Eraser tool |
-| `B` | Add new thought bubble |
-| `Ctrl + Z` | Undo last drawing stroke |
+- `Ctrl + S`: Quick save to disk & local storage
+- `Escape`: Return to the main Kanban board
+- `V`: Select & Move tool
+- `H` or `Space`: Pan / Hand tool
+- `P`: Pen drawing tool
+- `A`: Arrow connector
+- `E`: Eraser
+- `B`: Add new thought bubble
+- `Ctrl + Z`: Undo drawing stroke
 
 ---
 
-## 📂 Project Structure
+## License
 
-```
-sunveil-kanban/
-├── index.html            # Main application UI and templates
-├── server.js             # Hardened loopback HTTP server (Node.js)
-├── server.ps1            # Hardened fallback server (PowerShell)
-├── mcp-server.js         # Model Context Protocol (MCP) stdio AI server
-├── Start-Kanban.cmd      # One-click Windows starter
-├── Start-App.bat         # Fallback starter script
-├── css/
-│   └── style.css         # Modern dark-mode UI design system
-├── js/
-│   ├── i18n.js           # Multi-language translation engine (DE, EN, ES, FR)
-│   ├── store.js          # Reactive board data store & disk sync
-│   ├── kanban.js         # Kanban column & card drag-and-drop engine
-│   ├── mindmap.js        # Infinite zoomable visual mindmap engine
-│   ├── whiteboard.js     # Freehand drawing & canvas sketch engine
-│   ├── tabs.js           # Edge-style multi-tab manager
-│   └── app.js            # App initialization, shortcuts & event wire-up
-├── data/
-│   └── kanban_data.json  # Local board database (JSON format)
-├── LICENSE               # MIT Open Source License
-├── package.json          # Project metadata & npm scripts
-└── README.md             # Documentation
-```
-
----
-
-## 📄 License
-
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details. You are completely free to use, modify, distribute, and integrate this software into your own personal or commercial projects.
+MIT License — see [LICENSE](LICENSE) for details. Free for personal and commercial use.

@@ -562,17 +562,12 @@ class I18nManager {
     if (saved && translations[saved]) {
       return saved;
     }
-    // Auto-detect browser language
-    const navLang = (navigator.language || 'de').slice(0, 2).toLowerCase();
-    if (translations[navLang]) {
-      return navLang;
-    }
-    return 'de';
+    return 'en';
   }
 
   t(key, params = {}) {
-    const dict = translations[this.currentLang] || translations.de;
-    let text = dict[key] || translations.de[key] || key;
+    const dict = translations[this.currentLang] || translations.en;
+    let text = dict[key] || translations.en[key] || key;
     for (const [param, val] of Object.entries(params)) {
       text = text.replace(new RegExp(`\\{${param}\\}`, 'g'), val);
     }

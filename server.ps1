@@ -1,6 +1,6 @@
-# Sunveil Kanban - 100% .EXE freier PowerShell Server Fallback
-# Keine eigene .exe Datei erforderlich - Microsoft Windows PowerShell ist signiert & wird nicht gelöscht!
-# Sicherheitsgehärtet: Reines Loopback (127.0.0.1), Anti-Path-Traversal, DNS-Rebinding Schutz
+# Sunveil Kanban - 100% .EXE Free PowerShell Server Fallback
+# No custom .exe binary needed - Microsoft Windows PowerShell is digitally signed & antivirus-safe!
+# Security Hardened: Strict Loopback (127.0.0.1), Anti-Path-Traversal, DNS-Rebinding Protection
 
 $ErrorActionPreference = "SilentlyContinue"
 $BaseDir = [System.IO.Path]::GetFullPath($PSScriptRoot)

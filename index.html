@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,11 +31,11 @@
 
     <!-- Header Actions (Quick actions, MCP, Export/Import, Language, Status) -->
     <div class="header-actions">
-      <button class="icon-btn" id="btn-quick-new-card" data-i18n-title="btn_quick_card_title" title="Neue Karte hinzufügen">
-        <span data-i18n="btn_quick_card">+ Schnellkarte</span>
+      <button class="icon-btn" id="btn-quick-new-card" data-i18n-title="btn_quick_card_title" title="Add new card">
+        <span data-i18n="btn_quick_card">+ Quick Card</span>
       </button>
       <div class="divider"></div>
-      <button class="icon-btn mcp-btn" id="btn-open-mcp" data-i18n-title="btn_mcp_title" title="Model Context Protocol (MCP) & KI-Integration">
+      <button class="icon-btn mcp-btn" id="btn-open-mcp" data-i18n-title="btn_mcp_title" title="Model Context Protocol (MCP) & AI Integration">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <rect x="3" y="11" width="18" height="10" rx="2"/>
           <circle cx="12" cy="5" r="2"/>
@@ -43,9 +43,9 @@
           <line x1="8" y1="16" x2="8" y2="16"/>
           <line x1="16" y1="16" x2="16" y2="16"/>
         </svg>
-        <span data-i18n="btn_mcp">MCP / KI</span>
+        <span data-i18n="btn_mcp">MCP / AI</span>
       </button>
-      <button class="icon-btn" id="btn-export-data" data-i18n-title="btn_export_title" title="Backup / JSON exportieren">
+      <button class="icon-btn" id="btn-export-data" data-i18n-title="btn_export_title" title="Export Backup / JSON">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
           <polyline points="7 10 12 15 17 10"/>
@@ -53,7 +53,7 @@
         </svg>
         <span data-i18n="btn_export">Export</span>
       </button>
-      <button class="icon-btn" id="btn-import-data" data-i18n-title="btn_import_title" title="JSON importieren">
+      <button class="icon-btn" id="btn-import-data" data-i18n-title="btn_import_title" title="Import JSON">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
           <polyline points="17 8 12 3 7 8"/>
@@ -65,16 +65,16 @@
 
       <!-- Language Selector Dropdown -->
       <div class="lang-selector-dropdown">
-        <button class="icon-btn lang-btn" id="btn-lang-selector" title="Sprache ändern / Change Language">
-          <span class="lang-flag">🇩🇪</span>
-          <span class="lang-code">DE</span>
+        <button class="icon-btn lang-btn" id="btn-lang-selector" title="Change Language / Sprache ändern">
+          <span class="lang-flag">🇬🇧</span>
+          <span class="lang-code">EN</span>
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polyline points="6 9 12 15 18 9"/>
           </svg>
         </button>
         <div class="lang-menu" id="lang-menu">
-          <div class="lang-option active" data-lang="de"><span class="lang-flag">🇩🇪</span> Deutsch</div>
-          <div class="lang-option" data-lang="en"><span class="lang-flag">🇬🇧</span> English</div>
+          <div class="lang-option active" data-lang="en"><span class="lang-flag">🇬🇧</span> English</div>
+          <div class="lang-option" data-lang="de"><span class="lang-flag">🇩🇪</span> Deutsch</div>
           <div class="lang-option" data-lang="es"><span class="lang-flag">🇪🇸</span> Español</div>
           <div class="lang-option" data-lang="fr"><span class="lang-flag">🇫🇷</span> Français</div>
         </div>
@@ -82,7 +82,7 @@
 
       <div class="badge-status" id="save-status">
         <span class="status-dot"></span>
-        <span class="status-text" data-i18n="status_saved">Gespeichert</span>
+        <span class="status-text" data-i18n="status_saved">Saved</span>
       </div>
     </div>
   </header>
@@ -94,8 +94,8 @@
     <section id="kanban-view" class="viewport-panel active">
       <div class="kanban-subbar">
         <div class="board-info">
-          <h1 class="board-title" contenteditable="true" id="board-title-editable" spellcheck="false">🚀 Projekt Arbeitsbereich</h1>
-          <span class="board-subtitle" data-i18n="board_subtitle">Doppelklicke auf eine Karte, um deren visuelle Mindmap & Zeichenfläche zu öffnen</span>
+          <h1 class="board-title" contenteditable="true" id="board-title-editable" spellcheck="false">🚀 Project Workspace</h1>
+          <span class="board-subtitle" data-i18n="board_subtitle">Double-click any card to open its visual mindmap & canvas</span>
         </div>
         <div class="board-controls">
           <div class="search-box">
@@ -103,10 +103,10 @@
               <circle cx="11" cy="11" r="8"/>
               <line x1="21" y1="21" x2="16.65" y2="16.65"/>
             </svg>
-            <input type="text" id="card-search-input" data-i18n-placeholder="search_placeholder" placeholder="Karten durchsuchen...">
+            <input type="text" id="card-search-input" data-i18n-placeholder="search_placeholder" placeholder="Search cards...">
           </div>
           <button class="btn btn-primary" id="btn-add-column">
-            <span data-i18n="btn_add_column">+ Neue Spalte</span>
+            <span data-i18n="btn_add_column">+ New Column</span>
           </button>
         </div>
       </div>
@@ -122,7 +122,7 @@
       <!-- Top Floating Mindmap Subbar -->
       <div class="mindmap-subbar">
         <div class="mindmap-breadcrumb">
-          <button class="btn-subtle" id="btn-back-to-kanban" data-i18n-title="btn_back_kanban_title" title="Zurück zum Kanban Board">
+          <button class="btn-subtle" id="btn-back-to-kanban" data-i18n-title="btn_back_kanban_title" title="Back to Kanban Board">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="15 18 9 12 15 6"/>
             </svg>
@@ -131,20 +131,20 @@
           <span class="crumb-separator">/</span>
           <span class="mindmap-card-badge" id="mindmap-parent-col">In Progress</span>
           <span class="crumb-separator">/</span>
-          <input type="text" class="mindmap-title-input" id="mindmap-active-title" value="Karten Titel">
+          <input type="text" class="mindmap-title-input" id="mindmap-active-title" value="Card Title">
         </div>
 
         <!-- Zoom & View Tools -->
         <div class="mindmap-view-actions">
-          <span class="hint-text" data-i18n="mindmap_canvas_hint">💡 Doppelklick auf die Fläche = Neue Notiz/Blase | Rechtsklick/Mausrad = Bewegen/Zoom</span>
+          <span class="hint-text" data-i18n="mindmap_canvas_hint">💡 Double-click canvas = New note/bubble | Right-click/wheel = Pan/Zoom</span>
           <div class="zoom-controls">
-            <button class="icon-btn-sm" id="btn-zoom-out" data-i18n-title="btn_zoom_out_title" title="Herauszoomen">-</button>
+            <button class="icon-btn-sm" id="btn-zoom-out" data-i18n-title="btn_zoom_out_title" title="Zoom out">-</button>
             <span class="zoom-level" id="zoom-level-text">100%</span>
-            <button class="icon-btn-sm" id="btn-zoom-in" data-i18n-title="btn_zoom_in_title" title="Heranzoomen">+</button>
-            <button class="icon-btn-sm" id="btn-zoom-reset" data-i18n-title="btn_zoom_reset_title" title="Zoom zurücksetzen">1:1</button>
+            <button class="icon-btn-sm" id="btn-zoom-in" data-i18n-title="btn_zoom_in_title" title="Zoom in">+</button>
+            <button class="icon-btn-sm" id="btn-zoom-reset" data-i18n-title="btn_zoom_reset_title" title="Reset zoom">1:1</button>
           </div>
-          <button class="btn btn-secondary-sm" id="btn-export-mindmap-img" data-i18n-title="btn_export_mindmap_title" title="Mindmap als PNG exportieren">
-            <span data-i18n="btn_export_mindmap">📷 Bild</span>
+          <button class="btn btn-secondary-sm" id="btn-export-mindmap-img" data-i18n-title="btn_export_mindmap_title" title="Export mindmap as PNG">
+            <span data-i18n="btn_export_mindmap">📷 Image</span>
           </button>
         </div>
       </div>
@@ -153,13 +153,13 @@
       <aside class="floating-toolbar" id="mindmap-toolbar">
         <div class="tool-group">
           <!-- Selection & Move Tool -->
-          <button class="tool-btn active" data-tool="select" id="tool-select" data-i18n-title="tool_select" title="Auswählen & Bewegen (V)">
+          <button class="tool-btn active" data-tool="select" id="tool-select" data-i18n-title="tool_select" title="Select & Move (V)">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M3 3l7 18 3-7 7-3L3 3z"/>
             </svg>
           </button>
           <!-- Pan Canvas Tool -->
-          <button class="tool-btn" data-tool="pan" id="tool-pan" data-i18n-title="tool_pan" title="Fläche verschieben (Leertaste / Hand)">
+          <button class="tool-btn" data-tool="pan" id="tool-pan" data-i18n-title="tool_pan" title="Pan canvas (Space / Hand)">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M18 11V6a2 2 0 0 0-4 0v4"/>
               <path d="M14 10V4a2 2 0 0 0-4 0v7"/>
@@ -173,27 +173,27 @@
 
         <!-- Mindmap Bubble & Element Creation Tools -->
         <div class="tool-group">
-          <button class="tool-btn" data-tool="add-bubble" id="tool-bubble" data-i18n-title="tool_bubble" title="Blase / Knoten hinzufügen (B)">
+          <button class="tool-btn" data-tool="add-bubble" id="tool-bubble" data-i18n-title="tool_bubble" title="Add bubble / node (B)">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="12" cy="12" r="9"/>
               <line x1="12" y1="8" x2="12" y2="16"/>
               <line x1="8" y1="12" x2="16" y2="12"/>
             </svg>
           </button>
-          <button class="tool-btn" data-tool="add-text" id="tool-text" data-i18n-title="tool_text" title="Freier Textblock">
+          <button class="tool-btn" data-tool="add-text" id="tool-text" data-i18n-title="tool_text" title="Free text block">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="4 7 4 4 20 4 20 7"/>
               <line x1="9" y1="20" x2="15" y2="20"/>
               <line x1="12" y1="4" x2="12" y2="20"/>
             </svg>
           </button>
-          <button class="tool-btn" data-tool="add-link" id="tool-link" data-i18n-title="tool_link" title="Web-Link Karte">
+          <button class="tool-btn" data-tool="add-link" id="tool-link" data-i18n-title="tool_link" title="Web link card">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
               <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
             </svg>
           </button>
-          <button class="tool-btn" data-tool="add-image" id="tool-image" data-i18n-title="tool_image" title="Bild einfügen (Datei oder URL)">
+          <button class="tool-btn" data-tool="add-image" id="tool-image" data-i18n-title="tool_image" title="Insert image (File or URL)">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
               <circle cx="8.5" cy="8.5" r="1.5"/>
@@ -206,26 +206,26 @@
 
         <!-- Freehand Drawing / Sketching Tools -->
         <div class="tool-group">
-          <button class="tool-btn" data-tool="draw-pen" id="tool-pen" data-i18n-title="tool_pen" title="Freihand Stift (Schreiben & Malen)">
+          <button class="tool-btn" data-tool="draw-pen" id="tool-pen" data-i18n-title="tool_pen" title="Freehand pen (Draw & Write)">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M12 19l7-7 3 3-7 7-3-3z"/>
               <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/>
               <path d="M2 2l7.586 7.586"/>
             </svg>
           </button>
-          <button class="tool-btn" data-tool="draw-arrow" id="tool-arrow" data-i18n-title="tool_arrow" title="Verbindungspfeil zeichnen">
+          <button class="tool-btn" data-tool="draw-arrow" id="tool-arrow" data-i18n-title="tool_arrow" title="Draw arrow connection">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="5" y1="19" x2="19" y2="5"/>
               <polyline points="9 5 19 5 19 15"/>
             </svg>
           </button>
-          <button class="tool-btn" data-tool="draw-highlighter" id="tool-highlighter" data-i18n-title="tool_highlighter" title="Textmarker">
+          <button class="tool-btn" data-tool="draw-highlighter" id="tool-highlighter" data-i18n-title="tool_highlighter" title="Highlighter marker">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="m9 11-6 6v3h3l6-6"/>
               <path d="m22 12-4.6 4.6a2 2 0 0 1-2.8 0l-5.2-5.2a2 2 0 0 1 0-2.8L14 4"/>
             </svg>
           </button>
-          <button class="tool-btn" data-tool="eraser" id="tool-eraser" data-i18n-title="tool_eraser" title="Radiergummi (Zeichnungen löschen)">
+          <button class="tool-btn" data-tool="eraser" id="tool-eraser" data-i18n-title="tool_eraser" title="Eraser (Erase drawings)">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/>
               <path d="M22 21H7"/>
@@ -248,13 +248,13 @@
             <button class="color-dot" data-color="#ffffff" style="background:#ffffff;" data-i18n-title="color_white" title="White"></button>
           </div>
           <div class="stroke-sizes">
-            <button class="size-dot" data-size="2" data-i18n-title="stroke_fine" title="Fein">
+            <button class="size-dot" data-size="2" data-i18n-title="stroke_fine" title="Fine">
               <span style="width:3px;height:3px;"></span>
             </button>
             <button class="size-dot active" data-size="4" data-i18n-title="stroke_normal" title="Normal">
               <span style="width:6px;height:6px;"></span>
             </button>
-            <button class="size-dot" data-size="8" data-i18n-title="stroke_thick" title="Dick">
+            <button class="size-dot" data-size="8" data-i18n-title="stroke_thick" title="Thick">
               <span style="width:10px;height:10px;"></span>
             </button>
           </div>
@@ -264,13 +264,13 @@
 
         <!-- Undo / Redo & Clear -->
         <div class="tool-group">
-          <button class="tool-btn" id="btn-draw-undo" data-i18n-title="tool_undo" title="Zeichnen rückgängig (Strg+Z)">
+          <button class="tool-btn" id="btn-draw-undo" data-i18n-title="tool_undo" title="Undo drawing (Ctrl+Z)">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M3 7v6h6"/>
               <path d="M21 17a9 9 0 00-9-9 9 9 0 00-6 2.3L3 13"/>
             </svg>
           </button>
-          <button class="tool-btn" id="btn-draw-clear" data-i18n-title="tool_clear" title="Alle Zeichnungen auf dieser Karte löschen">
+          <button class="tool-btn" id="btn-draw-clear" data-i18n-title="tool_clear" title="Clear all drawings on this card">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="3 6 5 6 21 6"/>
               <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
@@ -283,46 +283,40 @@
       <div id="mindmap-viewport" class="canvas-viewport">
         <!-- Coordinate Transformation Container -->
         <div id="mindmap-world" class="canvas-world">
-          <!-- Background Grid Pattern -->
-          <div class="grid-canvas-bg"></div>
-
-          <!-- Dynamic SVG Connection Lines / Connectors -->
-          <svg id="mindmap-connections-svg" class="connections-layer"></svg>
-
-          <!-- Freehand Drawing Canvas (Drawing, handwritten text, free arrows) -->
+          <!-- SVG Connections Layer -->
+          <svg id="mindmap-svg" class="connections-layer"></svg>
+          <!-- HTML Mindmap Nodes Container -->
+          <div id="mindmap-nodes" class="nodes-container"></div>
+          <!-- HTML5 Whiteboard Canvas Overlay -->
           <canvas id="whiteboard-canvas" class="drawing-layer"></canvas>
-
-          <!-- DOM Nodes Layer (Center card bubble, child bubbles, media, notes) -->
-          <div id="mindmap-nodes-container" class="nodes-layer">
-            <!-- Center Node (The card title anchor) is created here -->
-          </div>
         </div>
       </div>
     </section>
 
   </main>
 
-  <!-- Modals & Overlays -->
+  <!-- Modals -->
+
   <!-- 1. Add Image Modal -->
   <div class="modal-backdrop" id="modal-image-prompt" style="display:none;">
     <div class="modal-dialog">
       <div class="modal-header">
-        <h3 data-i18n="modal_image_title">Bild zur Mindmap hinzufügen</h3>
+        <h3 data-i18n="modal_image_title">Add Image to Mindmap</h3>
         <button class="btn-close" id="btn-close-image-modal">&times;</button>
       </div>
       <div class="modal-body">
-        <label class="form-label" data-i18n="modal_image_url_label">Bild per URL einfügen:</label>
-        <input type="text" id="img-url-input" class="form-input" data-i18n-placeholder="modal_image_url_placeholder" placeholder="https://beispiel.de/bild.png">
-        <div class="modal-or"><span data-i18n="modal_image_or">ODER</span></div>
-        <label class="form-label" data-i18n="modal_image_local_label">Lokale Bilddatei hochladen:</label>
+        <label class="form-label" data-i18n="modal_image_url_label">Insert image via URL:</label>
+        <input type="text" id="img-url-input" class="form-input" data-i18n-placeholder="modal_image_url_placeholder" placeholder="https://example.com/image.png">
+        <div class="modal-or"><span data-i18n="modal_image_or">OR</span></div>
+        <label class="form-label" data-i18n="modal_image_local_label">Upload local image file:</label>
         <div class="file-drop-zone" id="file-drop-zone">
           <input type="file" id="local-img-input" accept="image/*">
-          <p data-i18n="modal_image_drop_zone">Klicke hier oder ziehe ein Bild hierher</p>
+          <p data-i18n="modal_image_drop_zone">Click here or drag an image here</p>
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-secondary" id="btn-cancel-image-modal" data-i18n="btn_cancel">Abbrechen</button>
-        <button class="btn btn-primary" id="btn-confirm-image-modal" data-i18n="btn_insert">Einfügen</button>
+        <button class="btn btn-secondary" id="btn-cancel-image-modal" data-i18n="btn_cancel">Cancel</button>
+        <button class="btn btn-primary" id="btn-confirm-image-modal" data-i18n="btn_insert">Insert</button>
       </div>
     </div>
   </div>
@@ -331,18 +325,18 @@
   <div class="modal-backdrop" id="modal-link-prompt" style="display:none;">
     <div class="modal-dialog">
       <div class="modal-header">
-        <h3 data-i18n="modal_link_title">Web-Link hinzufügen</h3>
+        <h3 data-i18n="modal_link_title">Add Web Link</h3>
         <button class="btn-close" id="btn-close-link-modal">&times;</button>
       </div>
       <div class="modal-body">
-        <label class="form-label" data-i18n="modal_link_title_label">Titel / Beschreibung:</label>
-        <input type="text" id="link-title-input" class="form-input" data-i18n-placeholder="modal_link_title_placeholder" placeholder="z.B. GitHub Repository oder Dokumentation">
-        <label class="form-label" style="margin-top:12px;" data-i18n="modal_link_url_label">URL-Adresse:</label>
+        <label class="form-label" data-i18n="modal_link_title_label">Title / Description:</label>
+        <input type="text" id="link-title-input" class="form-input" data-i18n-placeholder="modal_link_title_placeholder" placeholder="e.g. GitHub Repository or Documentation">
+        <label class="form-label" style="margin-top:12px;" data-i18n="modal_link_url_label">URL Address:</label>
         <input type="url" id="link-url-input" class="form-input" data-i18n-placeholder="modal_link_url_placeholder" placeholder="https://example.com">
       </div>
       <div class="modal-footer">
-        <button class="btn btn-secondary" id="btn-cancel-link-modal" data-i18n="btn_cancel">Abbrechen</button>
-        <button class="btn btn-primary" id="btn-confirm-link-modal" data-i18n="btn_insert_link">Link einfügen</button>
+        <button class="btn btn-secondary" id="btn-cancel-link-modal" data-i18n="btn_cancel">Cancel</button>
+        <button class="btn btn-primary" id="btn-confirm-link-modal" data-i18n="btn_insert_link">Insert Link</button>
       </div>
     </div>
   </div>
@@ -353,12 +347,12 @@
       <div class="modal-header">
         <div>
           <h3 style="display:flex; align-items:center; gap:8px;">
-            <span data-i18n="mcp_modal_title">🤖 Model Context Protocol (MCP) & KI-Integration</span>
+            <span data-i18n="mcp_modal_title">🤖 Model Context Protocol (MCP) & AI Integration</span>
           </h3>
           <div class="mcp-header-badges">
-            <span class="mcp-badge dot" data-i18n="mcp_badge_active">Server aktiv</span>
-            <span class="mcp-badge" data-i18n="mcp_badge_tools">10 Werkzeuge</span>
-            <span class="mcp-badge" data-i18n="mcp_badge_sync">Live 2-Wege Synchronisation</span>
+            <span class="mcp-badge dot" data-i18n="mcp_badge_active">Server Active</span>
+            <span class="mcp-badge" data-i18n="mcp_badge_tools">10 Tools</span>
+            <span class="mcp-badge" data-i18n="mcp_badge_sync">Live 2-Way Sync</span>
           </div>
         </div>
         <button class="btn-close" id="btn-close-mcp-modal">&times;</button>
@@ -368,8 +362,8 @@
       <div class="mcp-tab-nav">
         <button class="active" data-mcp-tab="tab-mcp-claude" data-i18n="mcp_tab_claude">Claude Desktop</button>
         <button data-mcp-tab="tab-mcp-ide" data-i18n="mcp_tab_ide">Antigravity / Cursor</button>
-        <button data-mcp-tab="tab-mcp-tools" data-i18n="mcp_tab_tools">Werkzeuge (10 Tools)</button>
-        <button data-mcp-tab="tab-mcp-test" data-i18n="mcp_tab_test">Live-Test</button>
+        <button data-mcp-tab="tab-mcp-tools" data-i18n="mcp_tab_tools">Tools (10 Tools)</button>
+        <button data-mcp-tab="tab-mcp-test" data-i18n="mcp_tab_test">Live Test</button>
       </div>
 
       <!-- Tab Contents -->
@@ -378,14 +372,14 @@
         <!-- Tab 1: Claude Desktop -->
         <div class="mcp-tab-panel active" id="tab-mcp-claude">
           <div class="mcp-desc-box" data-i18n="mcp_claude_desc">
-            Kopiere diese Konfiguration in deine <code>claude_desktop_config.json</code>, damit Claude Desktop Karten lesen, anlegen, verschieben und Mindmaps direkt steuern kann.
+            Copy this configuration into your <code>claude_desktop_config.json</code> to give Claude Desktop direct access to read, create, and organize your Kanban cards and mindmaps.
           </div>
-          <label class="form-label" data-i18n="mcp_config_path_label">Konfigurationspfad:</label>
+          <label class="form-label" data-i18n="mcp_config_path_label">Config Path:</label>
           <div style="font-family:monospace; font-size:12px; color:var(--text-muted); margin-bottom:8px;">
             %APPDATA%\Claude\claude_desktop_config.json
           </div>
           <div class="code-container">
-            <button class="btn-copy" id="btn-copy-claude-config" data-i18n="btn_copy">📋 Kopieren</button>
+            <button class="btn-copy" id="btn-copy-claude-config" data-i18n="btn_copy">📋 Copy</button>
             <pre id="code-claude-config">{
   "mcpServers": {
     "sunveil-kanban": {
@@ -396,18 +390,18 @@
 }</pre>
           </div>
           <p style="font-size:12px; color:var(--text-muted); line-height:1.5;" data-i18n="mcp_claude_tip">
-            💡 <strong>Tipp:</strong> Starte Claude Desktop nach dem Speichern neu. Claude hat dann sofort Zugriff auf <code>kanban_get_board</code>, <code>kanban_create_card</code>, <code>kanban_move_card</code> und alle Mindmaps!
+            💡 <strong>Tip:</strong> Restart Claude Desktop after saving. Claude will instantly gain access to <code>kanban_get_board</code>, <code>kanban_create_card</code>, <code>kanban_move_card</code> and all mindmaps!
           </p>
         </div>
 
         <!-- Tab 2: Antigravity / Cursor / IDEs -->
         <div class="mcp-tab-panel" id="tab-mcp-ide">
           <div class="mcp-desc-box" data-i18n="mcp_ide_desc">
-            In <strong>Google Antigravity</strong>, <strong>Cursor</strong>, <strong>Cline</strong> oder <strong>Windsurf</strong> kannst du den MCP-Server als lokalen stdio-Server einbinden.
+            In <strong>Google Antigravity</strong>, <strong>Cursor</strong>, <strong>Cline</strong> or <strong>Windsurf</strong>, register the MCP server as a local stdio server.
           </div>
-          <label class="form-label" data-i18n="mcp_config_path_label">MCP Server Konfiguration:</label>
+          <label class="form-label" data-i18n="mcp_config_path_label">MCP Server Configuration:</label>
           <div class="code-container">
-            <button class="btn-copy" id="btn-copy-ide-config" data-i18n="btn_copy">📋 Kopieren</button>
+            <button class="btn-copy" id="btn-copy-ide-config" data-i18n="btn_copy">📋 Copy</button>
             <pre id="code-ide-config">{
   "mcpServers": {
     "sunveil-kanban": {
@@ -420,55 +414,55 @@
 }</pre>
           </div>
           <p style="font-size:12px; color:var(--text-muted);" data-i18n="mcp_ide_tip">
-            Der Server benötigt keine externen npm-Abhängigkeiten und startet in Millisekunden über die Node.js Standardbibliothek.
+            Zero external npm dependencies — boots in milliseconds using the Node.js standard library.
           </p>
         </div>
 
         <!-- Tab 3: Tools Overview -->
         <div class="mcp-tab-panel" id="tab-mcp-tools">
           <div class="mcp-desc-box" data-i18n="mcp_tools_desc">
-            Folgende <strong>10 Werkzeuge</strong> stehen der KI zur Verfügung. Jede Änderung wird in Echtzeit live auf deinem Bildschirm aktualisiert!
+            The following <strong>10 tools</strong> are available to the AI. Every action updates your live screen in real time!
           </div>
           <div class="mcp-tools-grid">
             <div class="mcp-tool-card">
               <span class="mcp-tool-name">kanban_get_board</span>
-              <span class="mcp-tool-desc">Ruft das gesamte Kanban-Board ab (Spalten, Karten, Zähler, Tags).</span>
+              <span class="mcp-tool-desc">Retrieves the full Kanban board (columns, cards, counters, tags).</span>
             </div>
             <div class="mcp-tool-card">
               <span class="mcp-tool-name">kanban_create_card</span>
-              <span class="mcp-tool-desc">Erstellt eine neue Aufgabe in einer Spalte & initialisiert die Mindmap.</span>
+              <span class="mcp-tool-desc">Creates a new card in any column & initializes its visual mindmap.</span>
             </div>
             <div class="mcp-tool-card">
               <span class="mcp-tool-name">kanban_move_card</span>
-              <span class="mcp-tool-desc">Verschiebt eine Aufgabe in eine andere Phase (z.B. in "✅ Erledigt").</span>
+              <span class="mcp-tool-desc">Moves a card to another phase or changes its order.</span>
             </div>
             <div class="mcp-tool-card">
               <span class="mcp-tool-name">kanban_add_mindmap_node</span>
-              <span class="mcp-tool-desc">Fügt neue Gedankenblasen, Links oder Notizen zur Mindmap einer Karte hinzu.</span>
+              <span class="mcp-tool-desc">Adds thought bubbles, links, or notes to a card's mindmap.</span>
             </div>
             <div class="mcp-tool-card">
               <span class="mcp-tool-name">kanban_get_card</span>
-              <span class="mcp-tool-desc">Gibt alle Kartendetails inklusive aller Mindmap-Knoten und Skizzen aus.</span>
+              <span class="mcp-tool-desc">Returns comprehensive card details including all mindmap bubbles and sketches.</span>
             </div>
             <div class="mcp-tool-card">
               <span class="mcp-tool-name">kanban_list_cards</span>
-              <span class="mcp-tool-desc">Filtert Karten nach Spalte oder Suchbegriff.</span>
+              <span class="mcp-tool-desc">Filters cards by column or search query.</span>
             </div>
             <div class="mcp-tool-card">
               <span class="mcp-tool-name">kanban_update_card</span>
-              <span class="mcp-tool-desc">Aktualisiert Titel, Tags oder Notizen einer Karte.</span>
+              <span class="mcp-tool-desc">Updates card title, tags, or description.</span>
             </div>
             <div class="mcp-tool-card">
               <span class="mcp-tool-name">kanban_delete_card</span>
-              <span class="mcp-tool-desc">Löscht eine Karte anhand ihrer ID vom Board.</span>
+              <span class="mcp-tool-desc">Removes a card from the board by its ID.</span>
             </div>
             <div class="mcp-tool-card">
               <span class="mcp-tool-name">kanban_list_columns</span>
-              <span class="mcp-tool-desc">Listet alle Spalten mit IDs und Farben auf.</span>
+              <span class="mcp-tool-desc">Lists all columns with IDs, titles, and colors.</span>
             </div>
             <div class="mcp-tool-card">
               <span class="mcp-tool-name">kanban_create_column</span>
-              <span class="mcp-tool-desc">Fügt eine neue Spalte zum Kanban-Board hinzu.</span>
+              <span class="mcp-tool-desc">Adds a new phase column to the Kanban board.</span>
             </div>
           </div>
         </div>
@@ -476,31 +470,31 @@
         <!-- Tab 4: Live Test -->
         <div class="mcp-tab-panel" id="tab-mcp-test">
           <div class="mcp-desc-box" data-i18n="mcp_test_desc">
-            Teste die MCP-Schnittstelle direkt hier im Browser:
+            Test the MCP interface directly here in the browser:
           </div>
           <div class="mcp-test-runner">
             <div class="mcp-test-actions">
               <button class="mcp-test-btn" id="btn-test-get-board">📊 kanban_get_board</button>
               <button class="mcp-test-btn" id="btn-test-list-columns">📋 kanban_list_columns</button>
-              <button class="mcp-test-btn" id="btn-test-create-card">✨ KI-Testkarte anlegen</button>
-              <button class="mcp-test-btn" id="btn-test-add-node">🧠 Mindmap-Knoten anlegen</button>
+              <button class="mcp-test-btn" id="btn-test-create-card">✨ Create AI Test Card</button>
+              <button class="mcp-test-btn" id="btn-test-add-node">🧠 Add Mindmap Bubble</button>
             </div>
-            <label class="form-label" style="margin-top:8px;">Antwort der MCP-Schnittstelle:</label>
-            <div class="mcp-test-output" id="mcp-test-output">// Klicke oben auf einen Button, um ein MCP Tool auszuführen...</div>
+            <label class="form-label" style="margin-top:8px;">MCP Response Output:</label>
+            <div class="mcp-test-output" id="mcp-test-output">// Click a button above to execute an MCP tool...</div>
           </div>
         </div>
 
       </div>
 
       <div class="modal-footer">
-        <button class="btn btn-primary" id="btn-close-mcp-modal-footer" data-i18n="btn_close">Schließen</button>
+        <button class="btn btn-primary" id="btn-close-mcp-modal-footer" data-i18n="btn_close">Close</button>
       </div>
     </div>
   </div>
 
   <!-- Notification Toast -->
   <div id="toast-notification" class="toast-popup">
-    <span id="toast-message">Mitteilung</span>
+    <span id="toast-message">Notification</span>
   </div>
 
   <!-- Scripts -->

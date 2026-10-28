@@ -21,12 +21,12 @@ function getBoardData() {
   try {
     if (!fs.existsSync(DATA_FILE)) {
       const defaultData = {
-        title: "🚀 Projekt Arbeitsbereich",
+        title: "🚀 Project Workspace",
         columns: [
-          { id: "col-1", title: "💡 Ideen & Konzepte", color: "#6366f1" },
-          { id: "col-2", title: "⚡ In Arbeit", color: "#38bdf8" },
-          { id: "col-3", title: "🔍 Review & Test", color: "#f59e0b" },
-          { id: "col-4", title: "✅ Erledigt", color: "#10b981" }
+          { id: "col-1", title: "💡 Ideas & Concepts", color: "#6366f1" },
+          { id: "col-2", title: "⚡ In Progress", color: "#38bdf8" },
+          { id: "col-3", title: "🔍 Review & Testing", color: "#f59e0b" },
+          { id: "col-4", title: "✅ Done", color: "#10b981" }
         ],
         cards: []
       };
@@ -38,7 +38,7 @@ function getBoardData() {
     return JSON.parse(raw);
   } catch (err) {
     return {
-      title: "🚀 Projekt Arbeitsbereich",
+      title: "🚀 Project Workspace",
       columns: [],
       cards: [],
       error: err.message

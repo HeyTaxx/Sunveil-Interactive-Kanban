@@ -321,10 +321,10 @@ server.listen(0, '127.0.0.1', () => {
 
   console.log(`=======================================================`);
   console.log(`  🚀 Sunveil Interactive Kanban & Visual Mindmap`);
-  console.log(`  100% .EXE FREI - Virenscanner-resistent`);
-  console.log(`  Sicherheitsgehärtet: Nur 127.0.0.1 (Loopback)`);
-  console.log(`  Server aktiv auf: ${appUrl}`);
-  console.log(`  MCP Server bereit: node mcp-server.js`);
+  console.log(`  100% .EXE FREE - Antivirus-safe`);
+  console.log(`  Security Hardened: Strictly 127.0.0.1 (Loopback)`);
+  console.log(`  Server running at: ${appUrl}`);
+  console.log(`  MCP Server ready: node mcp-server.js`);
   console.log(`=======================================================`);
 
   // Launch browser in app window mode if not explicitly disabled
@@ -348,7 +348,7 @@ server.listen(0, '127.0.0.1', () => {
   // Auto-Shutdown Watchdog: terminates server when desktop window is closed
   setInterval(() => {
     if (Date.now() - lastHeartbeat > 15000) {
-      console.log('Fenster geschlossen (Heartbeat abgelaufen). Beende Server.');
+      console.log('Window closed (heartbeat expired). Shutting down server.');
       process.exit(0);
     }
   }, 2000);

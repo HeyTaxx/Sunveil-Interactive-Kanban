@@ -5,10 +5,10 @@ cd /d "%~dp0"
 
 echo ========================================================
 echo   Sunveil Interactive Kanban & Visual Mindmap
-echo   100%% .EXE-Frei (Virenscanner-Sicher)
+echo   100%% .EXE-Free (Antivirus-Safe)
 echo ========================================================
 echo.
-echo Starte lokale Anwendung...
+echo Starting local application...
 
 where node >nul 2>&1
 if %ERRORLEVEL% equ 0 (
