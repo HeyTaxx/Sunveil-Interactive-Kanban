@@ -1,2 +1,3 @@
-2026/10/28-23:02:07.518 44c8 Creating DB C:\Users\Admin\Documents\Sunveil Interactive Kanban\data\webview2_profile\EBWebView\Default\Local Storage\leveldb since it was missing.
-2026/10/28-23:02:07.783 44c8 Reusing MANIFEST C:\Users\Admin\Documents\Sunveil Interactive Kanban\data\webview2_profile\EBWebView\Default\Local Storage\leveldb/MANIFEST-000001
+2026/10/28-23:04:30.270 774c Reusing MANIFEST C:\Users\Admin\Documents\Sunveil Interactive Kanban\data\webview2_profile\EBWebView\Default\Local Storage\leveldb/MANIFEST-000001
+2026/10/28-23:04:30.274 774c Recovering log #3
+2026/10/28-23:04:30.280 774c Reusing old log C:\Users\Admin\Documents\Sunveil Interactive Kanban\data\webview2_profile\EBWebView\Default\Local Storage\leveldb/000003.log 
