@@ -36,7 +36,7 @@ Most task managers are either simple checklists or heavy, bloated web apps. Sunv
 ## Quick Start
 
 ### Windows (One-Click)
-Double-click `Start-Kanban.cmd`. It launches the app in a clean, standalone desktop window.
+- **`Sunveil.exe`**: Double-click the native launcher (or `Start-Kanban.cmd`). It starts the application in a clean, standalone desktop window without console flashes.
 
 ### Command Line (Cross-Platform: Windows, macOS, Linux)
 ```bash
