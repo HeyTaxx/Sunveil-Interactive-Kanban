@@ -74,3 +74,4 @@ case "$1" in
         exec node server.js --server
         ;;
 esac
+

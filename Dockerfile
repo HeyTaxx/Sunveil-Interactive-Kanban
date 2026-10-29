@@ -30,3 +30,4 @@ USER node
 
 # Start hardened 24/7 server daemon
 CMD ["node", "server.js", "--server"]
+

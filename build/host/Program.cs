@@ -34,7 +34,7 @@ namespace Sunveil.Host
         private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
         [STAThread]
-        private static void Main()
+        private static void Main(string[] args)
         {
             // 1. Single-Instance Check: If Sunveil is already open, activate it instantly (0 ms)
             using var mutex = new Mutex(true, SingleInstanceMutexName, out bool isOnlyInstance);
@@ -52,7 +52,7 @@ namespace Sunveil.Host
             catch { }
 
             ApplicationConfiguration.Initialize();
-            Application.Run(new MainForm());
+            Application.Run(new MainForm(args));
         }
 
         private static void ActivateRunningInstance()
@@ -88,11 +88,34 @@ namespace Sunveil.Host
             private Process? _serverProcess;
             private int _serverPort = 40293;
             private readonly string _projectDir;
+            private readonly string? _remoteServerUrl;
 
-            public MainForm()
+            public MainForm(string[]? args = null)
             {
                 _projectDir = AppDomain.CurrentDomain.BaseDirectory;
                 Directory.SetCurrentDirectory(_projectDir);
+
+                // Check command line arguments for remote server URL
+                if (args != null && args.Length > 0 && args[0].StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                {
+                    _remoteServerUrl = args[0].TrimEnd('/');
+                }
+                else
+                {
+                    string remoteConfigFile = Path.Combine(_projectDir, "data", "remote_server.txt");
+                    if (File.Exists(remoteConfigFile))
+                    {
+                        try
+                        {
+                            string content = File.ReadAllText(remoteConfigFile).Trim();
+                            if (content.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                            {
+                                _remoteServerUrl = content.TrimEnd('/');
+                            }
+                        }
+                        catch { }
+                    }
+                }
 
                 Text = "Sunveil - Interactive Kanban & Mindmap";
                 StartPosition = FormStartPosition.CenterScreen;
@@ -152,10 +175,7 @@ namespace Sunveil.Host
                         "--renderer-process-limit=2"
                     );
 
-                    // 1. Concurrently check / start server in background
-                    var serverTask = Task.Run(() => EnsureServerRunningAsync());
-
-                    // 2. Initialize WebView2 directly on the STA UI Thread (prevents 0x80010106 RPC_E_CHANGED_MODE!)
+                    // 1. Initialize WebView2 directly on the STA UI Thread (prevents 0x80010106 RPC_E_CHANGED_MODE!)
                     var env = await CoreWebView2Environment.CreateAsync(null, profileDir, envOptions);
                     await _webView.EnsureCoreWebView2Async(env);
 
@@ -173,8 +193,18 @@ namespace Sunveil.Host
                         }
                     };
 
-                    // Wait for server readiness
-                    bool serverReady = await serverTask;
+                    // If configured to connect to remote server, navigate immediately
+                    if (!string.IsNullOrEmpty(_remoteServerUrl))
+                    {
+                        string remoteUrl = _remoteServerUrl.EndsWith(".html", StringComparison.OrdinalIgnoreCase)
+                            ? _remoteServerUrl
+                            : $"{_remoteServerUrl}/index.html";
+                        _webView.CoreWebView2.Navigate(remoteUrl);
+                        return;
+                    }
+
+                    // Otherwise check / start local server concurrently
+                    bool serverReady = await Task.Run(() => EnsureServerRunningAsync());
                     if (!serverReady)
                     {
                         MessageBox.Show(

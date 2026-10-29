@@ -24,3 +24,4 @@ echo Druecke Strg+C um den Server zu beenden.
 echo.
 node server.js --server
 pause
+
