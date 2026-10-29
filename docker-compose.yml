@@ -1,0 +1,25 @@
+services:
+  sunveil:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sunveil-kanban
+    restart: unless-stopped
+    ports:
+      - "40293:40293"
+    environment:
+      - SUNVEIL_SERVER=true
+      - PORT=40293
+      - NODE_ENV=production
+      # Optional: Pre-set admin password for headless deployment
+      # - SUNVEIL_PASSWORD=YourSecureAdminPassword123!
+      # Allowed Host headers (use * for any or comma-separated list like "kanban.example.com,192.168.1.100")
+      - ALLOWED_HOSTS=*
+    volumes:
+      - ./data:/app/data
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://127.0.0.1:40293/api/ping', (res) => { process.exit(res.statusCode === 200 ? 0 : 1); }).on('error', () => process.exit(1));"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 5s

@@ -127,12 +127,14 @@ class WhiteboardEngine {
     this.isDrawing = false;
 
     if (this.currentStroke) {
-      this.undoStack.push([...this.strokes]);
-      this.redoStack = [];
-      this.strokes.push(this.currentStroke);
+      const finishedStroke = this.currentStroke;
+      this.strokes.push(finishedStroke);
       this.currentStroke = null;
       this.saveToCard();
       this.render();
+      if (window.liveShare && this.cardId) {
+        window.liveShare.broadcastStroke(this.cardId, finishedStroke);
+      }
     }
   }
 

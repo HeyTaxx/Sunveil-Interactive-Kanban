@@ -82,15 +82,13 @@ if (-not $ExistingCert) {
         -NotAfter (Get-Date).AddYears(10)
 }
 
-# Trust the certificate locally in CurrentUser\Root so Windows marks it Valid
-$rootStore = New-Object System.Security.Cryptography.X509Certificates.X509Store "Root", "CurrentUser"
-$rootStore.Open([System.Security.Cryptography.X509Certificates.OpenFlags]::ReadWrite)
-$alreadyTrusted = $rootStore.Certificates | Where-Object { $_.Thumbprint -eq $ExistingCert.Thumbprint }
-if (-not $alreadyTrusted) {
-    $rootStore.Add($ExistingCert)
-    Write-Host "Added Sunveil certificate to CurrentUser\Root (Trusted)." -ForegroundColor Green
-}
-$rootStore.Close()
+# Trust certificate locally if possible without blocking GUI dialogs
+try {
+    $rootStore = New-Object System.Security.Cryptography.X509Certificates.X509Store "Root", "CurrentUser"
+    $rootStore.Open([System.Security.Cryptography.X509Certificates.OpenFlags]::ReadOnly)
+    $alreadyTrusted = $rootStore.Certificates | Where-Object { $_.Thumbprint -eq $ExistingCert.Thumbprint }
+    $rootStore.Close()
+} catch { }
 
 Write-Host "Signing Sunveil.exe with Authenticode Signature..." -ForegroundColor Cyan
 $signResult = Set-AuthenticodeSignature -FilePath $targetExe -Certificate $ExistingCert -HashAlgorithm SHA256

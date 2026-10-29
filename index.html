@@ -6,8 +6,13 @@
   <title>Sunveil - Interactive Kanban & Mindmap</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@400;500;600&family=Caveat:wght@600&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@400;500;600&family=Caveat:wght@600&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@400;500;600&family=Caveat:wght@600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@400;500;600&family=Caveat:wght@600&display=swap" rel="stylesheet">
+  </noscript>
   <link rel="stylesheet" href="css/style.css">
+  <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236366f1'><path d='M3 3h8v10H3V3zm10 0h8v6h-8V3zm0 8h8v10h-8V11zM3 15h8v6H3v-6z'/></svg>">
 </head>
 <body class="dark-theme">
@@ -31,10 +36,57 @@
 
     <!-- Header Actions (Quick actions, MCP, Export/Import, Language, Status) -->
     <div class="header-actions">
+      <!-- Workspace / Board Selector Dropdown -->
+      <div class="workspace-selector-dropdown" id="workspace-selector">
+        <button class="icon-btn workspace-btn" id="btn-workspace-selector" title="Workspace / Board wechseln">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <line x1="9" y1="4" x2="9" y2="20"/>
+          </svg>
+          <span class="active-board-label" id="active-board-name">Board</span>
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+        <div class="workspace-menu" id="workspace-menu">
+          <div class="workspace-menu-header">
+            <span data-i18n="workspace_select_title">Workspaces & Boards</span>
+            <button class="btn-create-board-sm" id="btn-show-create-board" title="Neues Board anlegen">+ Neu</button>
+          </div>
+          <div class="workspace-list" id="workspace-items-list">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+
       <button class="icon-btn" id="btn-quick-new-card" data-i18n-title="btn_quick_card_title" title="Add new card">
         <span data-i18n="btn_quick_card">+ Quick Card</span>
       </button>
+      <!-- Collaborators Live Avatars Stack -->
+      <div class="collaborator-avatars" id="collaborator-avatars" title="Verbundene Teammitglieder"></div>
+
+      <!-- Live Share Button -->
+      <button class="icon-btn live-share-btn" id="btn-open-liveshare" data-i18n-title="btn_liveshare_title" title="Live Share — Echtzeit-Zusammenarbeit">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M2 12h20"/>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </svg>
+        <span data-i18n="btn_liveshare">Live Share</span>
+        <span class="live-badge" id="live-users-count">1</span>
+      </button>
+
+      <!-- GitHub Projects Integration Button -->
+      <button class="icon-btn github-btn" id="btn-open-github" data-i18n-title="btn_github_title" title="GitHub Projects Integration & Synchronisation">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+        </svg>
+        <span data-i18n="btn_github">GitHub Projects</span>
+        <span class="github-sync-dot" id="header-gh-sync-dot"></span>
+      </button>
+
       <div class="divider"></div>
+
       <button class="icon-btn mcp-btn" id="btn-open-mcp" data-i18n-title="btn_mcp_title" title="Model Context Protocol (MCP) & AI Integration">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <rect x="3" y="11" width="18" height="10" rx="2"/>
@@ -83,6 +135,19 @@
       <div class="badge-status" id="save-status">
         <span class="status-dot"></span>
         <span class="status-text" data-i18n="status_saved">Saved</span>
+      </div>
+
+      <!-- Server Mode & Auth Pill -->
+      <div class="server-auth-badge" id="server-auth-pill" style="display:none;" title="Server-Status">
+        <span class="server-dot"></span>
+        <span class="server-status-label" id="server-status-label">Server</span>
+        <button class="btn-server-logout" id="btn-server-auth-action" title="Abmelden" style="display:none;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+        </button>
       </div>
     </div>
   </header>
@@ -283,10 +348,12 @@
       <div id="mindmap-viewport" class="canvas-viewport">
         <!-- Coordinate Transformation Container -->
         <div id="mindmap-world" class="canvas-world">
+          <!-- Grid Background Pattern -->
+          <div class="grid-canvas-bg"></div>
           <!-- SVG Connections Layer -->
-          <svg id="mindmap-svg" class="connections-layer"></svg>
+          <svg id="mindmap-connections-svg" class="connections-layer"></svg>
           <!-- HTML Mindmap Nodes Container -->
-          <div id="mindmap-nodes" class="nodes-container"></div>
+          <div id="mindmap-nodes-container" class="nodes-layer nodes-container"></div>
           <!-- HTML5 Whiteboard Canvas Overlay -->
           <canvas id="whiteboard-canvas" class="drawing-layer"></canvas>
         </div>
@@ -294,6 +361,39 @@
     </section>
 
   </main>
+
+  <!-- Persistent Bottom Footer Bar -->
+  <footer id="app-footer">
+    <div class="footer-left">
+      <div class="footer-status-pill" id="footer-gh-status" title="GitHub Projects Status & Synchronisation">
+        <span class="status-dot gh-dot" id="footer-gh-dot"></span>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+        </svg>
+        <span id="footer-gh-text" data-i18n="footer_gh_connect">GitHub Projects verbinden</span>
+      </div>
+    </div>
+
+    <div class="footer-center">
+      <button id="btn-footer-brand-install" class="footer-brand-btn" title="Sunveil Interactive Kanban installieren / herunterladen">
+        <span class="brand-sparkle">✨</span>
+        <span class="brand-made" data-i18n="footer_made_with">Made with</span>
+        <strong class="brand-title">Sunveil Interactive Kanban</strong>
+        <span class="install-pill-badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          <span data-i18n="footer_install_btn">Selber installieren</span>
+        </span>
+      </button>
+    </div>
+
+    <div class="footer-right">
+      <span class="version-pill">v1.2.0 Open Source</span>
+    </div>
+  </footer>
 
   <!-- Modals -->
 
@@ -492,6 +592,434 @@
     </div>
   </div>
 
+  <!-- 4. Live Share Real-Time Collaboration Modal -->
+  <div class="modal-backdrop" id="modal-liveshare" style="display:none;">
+    <div class="modal-dialog liveshare-dialog">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span class="liveshare-pulse-dot"></span>
+          <h3 data-i18n="liveshare_modal_title">🌐 Live Share — Echtzeit-Zusammenarbeit</h3>
+        </div>
+        <button class="btn-close" id="btn-close-liveshare-modal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Live Share Status Box -->
+        <div class="liveshare-status-box">
+          <div class="liveshare-status-header">
+            <span class="status-indicator-badge live" id="liveshare-status-indicator">
+              <span class="live-dot-pulse"></span>
+              <span id="liveshare-status-label" data-i18n="liveshare_status_active">Live Share Aktiv (Im Netzwerk verfügbar)</span>
+            </span>
+            <label class="toggle-switch" title="Live Share aktivieren / deaktivieren">
+              <input type="checkbox" id="toggle-liveshare-active" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <p class="liveshare-status-desc" data-i18n="liveshare_desc">
+            Teile diesen Link mit deinem Team im gleichen WLAN/Netzwerk. Alle Änderungen an Kanban-Karten, Mindmaps und Zeichnungen werden in Echtzeit synchronisiert!
+          </p>
+        </div>
+
+        <!-- Share Link Box -->
+        <div class="liveshare-link-card">
+          <label class="form-label" data-i18n="liveshare_link_label">Netzwerk-Link für Teammitglieder:</label>
+          <div class="copy-link-group">
+            <input type="text" id="liveshare-url-input" class="form-input code-input" readonly value="Lade Link...">
+            <button class="btn btn-primary" id="btn-copy-liveshare-link">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+              </svg>
+              <span id="copy-btn-text" data-i18n="btn_copy_link">Kopieren</span>
+            </button>
+            <a href="#" target="_blank" class="btn btn-secondary" id="btn-open-liveshare-browser" data-i18n-title="btn_open_browser" title="In neuem Tab / Browser öffnen">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                <polyline points="15 3 21 3 21 9"/>
+                <line x1="10" y1="14" x2="21" y2="3"/>
+              </svg>
+            </a>
+          </div>
+          <div class="liveshare-hints">
+            <span class="hint-pill">💡 Funktioniert auf jedem PC, Mac, iPad, Tablet oder Smartphone im gleichen Netzwerk</span>
+          </div>
+        </div>
+
+        <!-- QR Code & Quick Join -->
+        <div class="liveshare-qr-section">
+          <div class="qr-code-box" id="liveshare-qr-container">
+            <!-- Dynamic QR Code rendered via pure SVG -->
+          </div>
+          <div class="qr-text">
+            <h4 data-i18n="liveshare_mobile_title">📱 Mobil mitarbeiten</h4>
+            <p data-i18n="liveshare_mobile_desc">Einfach Kamera auf den QR-Code richten – die Sunveil App öffnet sich sofort im mobilen Browser ohne Installation.</p>
+          </div>
+        </div>
+
+        <!-- Profile / Name Settings -->
+        <div class="liveshare-profile-row">
+          <div class="profile-input-group">
+            <label class="form-label" data-i18n="liveshare_your_name">Dein Name / Anzeigename:</label>
+            <input type="text" id="liveshare-user-name" class="form-input" placeholder="z. B. Alex">
+          </div>
+          <div class="profile-color-group">
+            <label class="form-label" data-i18n="liveshare_your_color">Deine Team-Farbe:</label>
+            <div class="user-color-picker" id="liveshare-color-palette">
+              <button class="color-dot active" data-color="#6366f1" style="background:#6366f1;" title="Indigo"></button>
+              <button class="color-dot" data-color="#38bdf8" style="background:#38bdf8;" title="Sky Blue"></button>
+              <button class="color-dot" data-color="#10b981" style="background:#10b981;" title="Emerald"></button>
+              <button class="color-dot" data-color="#f59e0b" style="background:#f59e0b;" title="Amber"></button>
+              <button class="color-dot" data-color="#f43f5e" style="background:#f43f5e;" title="Rose"></button>
+              <button class="color-dot" data-color="#a855f7" style="background:#a855f7;" title="Purple"></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Connected Collaborators List -->
+        <div class="collaborators-section">
+          <h4 class="section-title">
+            <span data-i18n="liveshare_connected_users">Verbundene Teilnehmer</span>
+            <span class="badge-count" id="liveshare-users-badge">1 online</span>
+          </h4>
+          <div class="collaborators-list" id="liveshare-collaborators-list">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btn-close-liveshare-footer" data-i18n="btn_close">Schließen</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. GitHub Projects Integration & Sync Modal -->
+  <div class="modal-backdrop" id="modal-github-integration" style="display:none;">
+    <div class="modal-dialog github-dialog">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          <h3 data-i18n="github_modal_title">GitHub Projects Integration & 2-Wege Sync</h3>
+        </div>
+        <button class="btn-close" id="btn-close-github-modal">&times;</button>
+      </div>
+
+      <!-- Tab Navigation -->
+      <div class="gh-tab-nav">
+        <button class="gh-tab-btn active" data-tab="tab-gh-connect" data-i18n="gh_tab_connect">Verbindung</button>
+        <button class="gh-tab-btn" data-tab="tab-gh-sync" data-i18n="gh_tab_sync">Live-Sync & Steuerung</button>
+        <button class="gh-tab-btn" data-tab="tab-gh-guide" data-i18n="gh_tab_guide">Anleitung</button>
+      </div>
+
+      <!-- Tab Contents -->
+      <div class="gh-tab-body">
+        
+        <!-- Tab 1: Connection & Setup -->
+        <div class="gh-tab-panel active" id="tab-gh-connect">
+          <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;" data-i18n="gh_desc_connect">
+            Verbinde Sunveil mit GitHub Projects v2. Alle Aufgaben, Issues und Pull Requests werden als Kanban-Karten geladen und Änderungen synchronisiert.
+          </p>
+
+          <label class="form-label" data-i18n="gh_label_token">GitHub Personal Access Token (PAT):</label>
+          <div style="display:flex; gap:8px; margin-bottom:6px;">
+            <input type="password" id="gh-token-input" class="form-input code-input" placeholder="ghp_... oder github_pat_..." spellcheck="false">
+            <button class="btn btn-primary" id="btn-gh-verify-token" data-i18n="btn_gh_verify">Token prüfen</button>
+          </div>
+          <div style="font-size:11px; color:var(--text-dim); margin-bottom:14px;">
+            💡 Benötigte Scopes: <code>repo</code> und <code>project</code>. 
+            <a href="https://github.com/settings/tokens/new?scopes=repo,project,read:org&description=Sunveil+Interactive+Kanban+Sync" target="_blank" style="color:var(--accent-cyan); text-decoration:none;">Hier direkt Token auf GitHub generieren ↗</a>
+          </div>
+
+          <!-- Verified User Badge -->
+          <div class="gh-user-preview" id="gh-user-badge" style="display:none;"></div>
+
+          <div style="display:grid; grid-template-columns: 140px 1fr; gap:10px; margin-top:14px; margin-bottom:14px;">
+            <div>
+              <label class="form-label" data-i18n="gh_label_owner_type">Typ:</label>
+              <select id="gh-owner-type" class="form-input">
+                <option value="user">Benutzer</option>
+                <option value="org">Organisation</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label" data-i18n="gh_label_owner_name">Account / Org Name:</label>
+              <div style="display:flex; gap:8px;">
+                <input type="text" id="gh-owner-input" class="form-input" placeholder="z. B. octocat oder mein-team">
+                <button class="btn btn-secondary" id="btn-gh-fetch-projects" data-i18n="btn_gh_fetch_projects">Projekte laden</button>
+              </div>
+            </div>
+          </div>
+
+          <label class="form-label" data-i18n="gh_label_select_project">GitHub Project v2 auswählen:</label>
+          <select id="gh-project-select" class="form-input" style="margin-bottom:14px;">
+            <option value="">-- Gib Token & Account ein und klicke 'Projekte laden' --</option>
+          </select>
+
+          <label class="form-label" data-i18n="gh_label_select_field">Status-Feld (Kanban-Spalten Zuordnung):</label>
+          <select id="gh-field-select" class="form-input" style="margin-bottom:18px;">
+            <option value="">-- Status-Feld wählen --</option>
+          </select>
+
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <button class="btn btn-primary" id="btn-gh-connect-project" data-i18n="btn_gh_connect">
+              Projekt verbinden & Synchronisieren
+            </button>
+            <button class="btn btn-secondary" id="btn-gh-disconnect" style="display:none; color:var(--accent-rose);" data-i18n="btn_gh_disconnect">
+              Trennen
+            </button>
+          </div>
+        </div>
+
+        <!-- Tab 2: Live Sync & Controls -->
+        <div class="gh-tab-panel" id="tab-gh-sync">
+          <div class="conn-info-card" id="gh-connected-info" style="display:none;"></div>
+
+          <div class="gh-action-buttons">
+            <button class="btn btn-primary" id="btn-gh-sync-now" style="flex:1;">
+              🔄 <span data-i18n="btn_gh_sync_now">Alles synchronisieren</span>
+            </button>
+            <button class="btn btn-secondary" id="btn-gh-pull">
+              ⬇️ <span data-i18n="btn_gh_pull">Von GitHub laden</span>
+            </button>
+            <button class="btn btn-secondary" id="btn-gh-push">
+              ⬆️ <span data-i18n="btn_gh_push">Zu GitHub senden</span>
+            </button>
+          </div>
+
+          <div style="display:flex; align-items:center; justify-content:space-between; padding:12px; background:rgba(255,255,255,0.03); border:1px solid var(--border-color); border-radius:var(--radius-md); margin-bottom:14px;">
+            <div>
+              <strong style="font-size:13px;" data-i18n="gh_auto_sync_title">Hintergrund Auto-Sync</strong>
+              <div style="font-size:11px; color:var(--text-muted);" data-i18n="gh_auto_sync_desc">Synchronisiert alle 30 Sekunden im Hintergrund & sofort bei Kartenverschiebungen</div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="gh-auto-sync-toggle" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+
+          <label class="form-label" data-i18n="gh_activity_logs_label">Sync-Aktivitäten & Protokoll:</label>
+          <div class="gh-activity-box" id="gh-activity-logs">
+            <div class="log-entry log-info"><span class="log-time">[Bereit]</span> <span class="log-text">Warte auf Synchronisation...</span></div>
+          </div>
+        </div>
+
+        <!-- Tab 3: Setup Guide -->
+        <div class="gh-tab-panel" id="tab-gh-guide">
+          <div style="line-height:1.6; font-size:13px; color:var(--text-main);">
+            <h4 style="margin-bottom:8px; color:var(--accent-primary);">🚀 So verbindest du GitHub Projects v2:</h4>
+            <ol style="margin-left:20px; margin-bottom:16px;">
+              <li style="margin-bottom:8px;">
+                <strong>Token erstellen:</strong> Gehe zu <a href="https://github.com/settings/tokens" target="_blank" style="color:var(--accent-cyan);">GitHub Token Settings</a> und erstelle ein Personal Access Token mit den Rechten <code>repo</code> und <code>project</code>.
+              </li>
+              <li style="margin-bottom:8px;">
+                <strong>In Sunveil eintragen:</strong> Füge das Token im Tab 'Verbindung' ein und klicke auf 'Token prüfen'.
+              </li>
+              <li style="margin-bottom:8px;">
+                <strong>Projekt auswählen:</strong> Wähle dein gewünschtes GitHub Project v2 und das dazugehörige Status-Feld (z. B. "Status") aus.
+              </li>
+              <li style="margin-bottom:8px;">
+                <strong>2-Wege Synchronisation:</strong> Jede Karte auf dem Board kann nun verschoben oder editiert werden. Der Status wird live in GitHub Projects aktualisiert!
+              </li>
+              <li>
+                <strong>Team-Kollaboration:</strong> Alle Mitarbeiter, die über Live Share oder im gleichen Netzwerk auf das Board zugreifen, sehen die synchronisierten GitHub-Karten in Echtzeit.
+              </li>
+            </ol>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btn-close-github-footer" data-i18n="btn_close">Schließen</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Install Sunveil Interactive Kanban Modal -->
+  <div class="modal-backdrop" id="modal-install-sunveil" style="display:none;">
+    <div class="modal-dialog install-dialog">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span style="font-size:22px;">✨</span>
+          <div>
+            <h3 data-i18n="install_modal_title">Sunveil Interactive Kanban installieren</h3>
+            <p style="font-size:12px; color:var(--text-muted); margin-top:2px;" data-i18n="install_modal_subtitle">
+              Nutze Sunveil auf jedem Gerät: als eigenständige Desktop-App, Web-App oder auf Tablets & Smartphones.
+            </p>
+          </div>
+        </div>
+        <button class="btn-close" id="btn-close-install-modal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="install-grid">
+          
+          <!-- 1. 1-Click PWA App -->
+          <div class="install-card">
+            <div>
+              <div class="install-card-header">
+                <span class="install-card-icon">🚀</span>
+                <span class="install-card-title" data-i18n="install_opt_pwa_title">1-Klick App Installation</span>
+              </div>
+              <p class="install-card-desc" style="margin-top:8px;" data-i18n="install_opt_pwa_desc">
+                Direkt im Browser (Chrome, Edge, Brave, Safari) als eigenständige fensterbasierte App ohne Adressleiste installieren.
+              </p>
+            </div>
+            <button class="btn btn-primary" id="btn-install-pwa" style="width:100%; justify-content:center;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+              <span data-i18n="btn_install_app">Jetzt als App installieren</span>
+            </button>
+          </div>
+
+          <!-- 2. Portable Windows Desktop App -->
+          <div class="install-card">
+            <div>
+              <div class="install-card-header">
+                <span class="install-card-icon">🖥️</span>
+                <span class="install-card-title" data-i18n="install_opt_desktop_title">Windows Desktop (.exe / cmd)</span>
+              </div>
+              <p class="install-card-desc" style="margin-top:8px;" data-i18n="install_opt_desktop_desc">
+                Portable Version mit WebView2-Engine. Startet in Millisekunden ohne Installation über <code>Start-Kanban.cmd</code> oder <code>Sunveil.exe</code>.
+              </p>
+            </div>
+            <button class="btn btn-secondary" id="btn-show-portable-info" style="width:100%; justify-content:center;">
+              📂 <span data-i18n="btn_show_desktop_info">Startdatei & Info</span>
+            </button>
+          </div>
+
+          <!-- 3. Terminal & Git / Node.js -->
+          <div class="install-card">
+            <div>
+              <div class="install-card-header">
+                <span class="install-card-icon">💻</span>
+                <span class="install-card-title" data-i18n="install_opt_cli_title">Entwickler & Git</span>
+              </div>
+              <p class="install-card-desc" style="margin-top:8px;" data-i18n="install_opt_cli_desc">
+                Quelloffen und vollständig anpassbar. Ausführen mit Node.js:
+              </p>
+              <div style="font-family:monospace; font-size:11px; background:rgba(0,0,0,0.3); padding:6px 8px; border-radius:4px; margin-top:6px; color:var(--text-main); user-select:text;">
+                git clone https://github.com/your-username/sunveil-kanban.git<br>
+                npm start
+              </div>
+            </div>
+            <button class="btn btn-secondary" id="btn-copy-git-cmd" style="width:100%; justify-content:center;">
+              📋 <span data-i18n="btn_copy_cmd">Befehl kopieren</span>
+            </button>
+          </div>
+
+          <!-- 4. Mobile & Tablet Live Share -->
+          <div class="install-card">
+            <div>
+              <div class="install-card-header">
+                <span class="install-card-icon">📱</span>
+                <span class="install-card-title" data-i18n="install_opt_mobile_title">Mobile & Tablet (Ohne Installation)</span>
+              </div>
+              <p class="install-card-desc" style="margin-top:8px;" data-i18n="install_opt_mobile_desc">
+                Auf iPad, Android-Tablet oder Smartphone einfach den Live Share QR-Code scannen und sofort mitarbeiten!
+              </p>
+            </div>
+            <button class="btn btn-secondary" id="btn-open-liveshare-from-install" style="width:100%; justify-content:center;">
+              🌐 <span data-i18n="btn_open_qr">QR-Code anzeigen</span>
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-primary" id="btn-close-install-footer" data-i18n="btn_close">Fertig</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Create New Board / Workspace -->
+  <div class="modal-overlay" id="modal-create-board" style="display:none;">
+    <div class="modal-dialog" style="max-width: 480px;">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <h2 class="modal-title" data-i18n="workspace_modal_title">Neues Board erstellen</h2>
+          <span class="modal-subtitle">Erstelle einen neuen isolierten Arbeitsbereich</span>
+        </div>
+        <button class="modal-close-btn" id="btn-close-create-board">&times;</button>
+      </div>
+      <div class="modal-body" style="padding: 20px;">
+        <div class="form-group" style="margin-bottom: 16px;">
+          <label style="display:block; font-size:12px; font-weight:600; margin-bottom:6px; color:var(--text-muted);" data-i18n="workspace_name_label">Board-Name:</label>
+          <input type="text" class="form-input" id="new-board-title" placeholder="z. B. Sprint 2026, Marketing Roadmap..." style="width:100%; box-sizing:border-box;">
+        </div>
+
+        <div class="form-group" style="margin-bottom: 16px;">
+          <label style="display:block; font-size:12px; font-weight:600; margin-bottom:6px; color:var(--text-muted);" data-i18n="workspace_color_label">Farbe / Akzent:</label>
+          <div class="color-palette" id="new-board-color-palette" style="display:flex; gap:10px;">
+            <div class="color-dot active" data-color="#6366f1" style="background:#6366f1; width:24px; height:24px; border-radius:50%; cursor:pointer;"></div>
+            <div class="color-dot" data-color="#38bdf8" style="background:#38bdf8; width:24px; height:24px; border-radius:50%; cursor:pointer;"></div>
+            <div class="color-dot" data-color="#10b981" style="background:#10b981; width:24px; height:24px; border-radius:50%; cursor:pointer;"></div>
+            <div class="color-dot" data-color="#f59e0b" style="background:#f59e0b; width:24px; height:24px; border-radius:50%; cursor:pointer;"></div>
+            <div class="color-dot" data-color="#ec4899" style="background:#ec4899; width:24px; height:24px; border-radius:50%; cursor:pointer;"></div>
+            <div class="color-dot" data-color="#8b5cf6" style="background:#8b5cf6; width:24px; height:24px; border-radius:50%; cursor:pointer;"></div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label style="display:block; font-size:12px; font-weight:600; margin-bottom:6px; color:var(--text-muted);" data-i18n="workspace_template_label">Vorlage:</label>
+          <select class="form-input" id="new-board-template" style="width:100%; box-sizing:border-box; background:var(--bg-tertiary); color:var(--text-main); border:1px solid var(--border-color); padding:8px 12px; border-radius:var(--radius-sm);">
+            <option value="standard" data-i18n="workspace_template_blank">Standard Kanban (Ideen, In Progress, Review, Done)</option>
+            <option value="scrum" data-i18n="workspace_template_scrum">Scrum Sprint (Backlog, Sprint, Testing, Done)</option>
+            <option value="simple" data-i18n="workspace_template_simple">Einfache Aufgabenliste (To Do, In Progress, Done)</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer" style="display:flex; justify-content:flex-end; gap:10px;">
+        <button class="btn btn-secondary" id="btn-cancel-create-board" data-i18n="btn_cancel">Abbrechen</button>
+        <button class="btn btn-primary" id="btn-confirm-create-board" data-i18n="workspace_btn_create">Board anlegen</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Server Login & Setup Security -->
+  <div class="modal-overlay" id="modal-server-login" style="display:none; z-index:9999; backdrop-filter:blur(10px); background:rgba(0,0,0,0.75);">
+    <div class="modal-dialog" style="max-width: 440px; border-color: rgba(99,102,241,0.5); box-shadow: 0 0 40px rgba(99,102,241,0.25);">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <h2 class="modal-title" id="server-login-title" data-i18n="server_login_title">🔐 Server-Anmeldung</h2>
+          <span class="modal-subtitle">Sunveil Production Security</span>
+        </div>
+      </div>
+      <div class="modal-body" style="padding: 24px;">
+        <p id="server-login-desc" style="font-size:13px; color:var(--text-muted); line-height:1.5; margin-bottom:16px;" data-i18n="server_login_desc">
+          Dieser Sunveil-Server ist geschützt. Bitte gib das Passwort ein, um auf deine Boards zuzugreifen.
+        </p>
+
+        <div id="server-login-error" class="login-error-alert" style="display:none; background:rgba(239,68,68,0.15); border:1px solid #ef4444; color:#fca5a5; padding:10px 14px; border-radius:6px; font-size:12.5px; margin-bottom:16px;">
+        </div>
+
+        <div class="form-group" style="margin-bottom: 14px;">
+          <label style="display:block; font-size:12px; font-weight:600; margin-bottom:6px; color:var(--text-muted);" data-i18n="server_password_label">Passwort:</label>
+          <div style="position:relative;">
+            <input type="password" class="form-input" id="server-password-input" placeholder="Passwort eingeben..." style="width:100%; box-sizing:border-box; padding-right:38px;">
+            <button type="button" class="btn-toggle-pwd" id="btn-toggle-pwd-vis" style="position:absolute; right:8px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:14px;">👁️</button>
+          </div>
+        </div>
+
+        <div class="form-group" id="group-server-setup-confirm" style="display:none; margin-bottom: 14px;">
+          <label style="display:block; font-size:12px; font-weight:600; margin-bottom:6px; color:var(--text-muted);" data-i18n="server_password_repeat">Passwort wiederholen:</label>
+          <input type="password" class="form-input" id="server-password-confirm" placeholder="Passwort bestätigen..." style="width:100%; box-sizing:border-box;">
+        </div>
+      </div>
+      <div class="modal-footer" style="display:flex; justify-content:flex-end;">
+        <button class="btn btn-primary" id="btn-submit-server-auth" style="width:100%; justify-content:center; padding:10px;" data-i18n="server_btn_login">Anmelden</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Notification Toast -->
   <div id="toast-notification" class="toast-popup">
     <span id="toast-message">Notification</span>
@@ -503,6 +1031,8 @@
   <script src="js/tabs.js"></script>
   <script src="js/whiteboard.js"></script>
   <script src="js/mindmap.js"></script>
+  <script src="js/liveshare.js"></script>
+  <script src="js/github.js"></script>
   <script src="js/kanban.js"></script>
   <script src="js/app.js"></script>
 </body>

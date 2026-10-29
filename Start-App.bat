@@ -1,14 +1,11 @@
 @echo off
 setlocal
-title Sunveil Interactive Kanban & Mindmap
 cd /d "%~dp0"
 
-echo ========================================================
-echo   Sunveil Interactive Kanban & Visual Mindmap
-echo   100%% .EXE-Free (Antivirus-Safe)
-echo ========================================================
-echo.
-echo Starting local application...
+if exist "%~dp0Sunveil.exe" (
+    start "" "%~dp0Sunveil.exe"
+    exit
+)
 
 where node >nul 2>&1
 if %ERRORLEVEL% equ 0 (

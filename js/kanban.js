@@ -80,6 +80,9 @@ class KanbanEngine {
   }
 
   render() {
+    if (this.boardTitleEl && document.activeElement !== this.boardTitleEl) {
+      this.boardTitleEl.textContent = window.store.data.title || '🚀 Project Workspace';
+    }
     this.columnsContainer.innerHTML = '';
 
     for (const column of window.store.data.columns) {
@@ -240,6 +243,9 @@ class KanbanEngine {
       
       // Dropping in the empty space of cards list -> place at end
       window.store.moveCard(this.draggedCardId, column.id, cards.length);
+      if (window.githubSync) {
+        window.githubSync.notifyCardMoved(this.draggedCardId, column.id);
+      }
       this.draggedCardId = null;
       this.render();
     });
@@ -264,8 +270,34 @@ class KanbanEngine {
         '</div>';
     }
 
+    let githubBadgeHtml = '';
+    if (card.github) {
+      const gh = card.github;
+      const isPr = gh.type === 'pullrequest' || gh.type === 'pr';
+      const isDraft = gh.type === 'draftissue' || gh.type === 'draft';
+      const statusColor = (gh.state === 'CLOSED' || gh.state === 'MERGED') ? '#a855f7' : (gh.state === 'OPEN' ? '#10b981' : '#64748b');
+      const badgeText = isDraft ? 'Draft' : (gh.number ? '#' + gh.number : 'GH');
+
+      githubBadgeHtml = `
+        <div class="card-github-badge">
+          <a ${gh.url ? `href="${this.escape(gh.url)}" target="_blank"` : ''} class="gh-link" title="${this.escape(gh.repository || 'GitHub Project')}" onclick="event.stopPropagation();">
+            <svg class="gh-icon" width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+            </svg>
+            <span class="gh-number">${this.escape(badgeText)}</span>
+            ${gh.repository ? `<span class="gh-repo">${this.escape(gh.repository.split('/')[1] || gh.repository)}</span>` : ''}
+          </a>
+          ${gh.assignee ? `<span class="gh-assignee" title="Zugewiesen an @${this.escape(gh.assignee.login)}"><img src="${this.escape(gh.assignee.avatarUrl)}" alt="${this.escape(gh.assignee.login)}"></span>` : ''}
+          <span class="gh-dot" style="background:${statusColor};" title="Status: ${this.escape(gh.state || 'Aktiv')}"></span>
+        </div>
+      `;
+    }
+
     cardEl.innerHTML = `
-      ${tagsHtml}
+      <div class="card-top-badges">
+        ${githubBadgeHtml}
+        ${tagsHtml}
+      </div>
       <div class="card-title-text" contenteditable="true" spellcheck="false" title="${window.i18n ? window.i18n.t('card_title_hint') : 'Klicken zum Bearbeiten des Titels'}">${this.escape(card.title)}</div>
       <div class="card-footer">
         <div class="card-indicators">
@@ -309,6 +341,9 @@ class KanbanEngine {
       const newTitle = cardTitleEl.textContent.trim() || defaultNew;
       window.store.updateCardTitle(card.id, newTitle);
       window.tabsManager.updateTabTitle(card.id, newTitle);
+      if (window.githubSync) {
+        window.githubSync.notifyCardUpdated(card.id);
+      }
     });
 
     cardTitleEl.addEventListener('keydown', (e) => {
@@ -389,6 +424,9 @@ class KanbanEngine {
       if (!isAbove) targetIdx++;
 
       window.store.moveCard(this.draggedCardId, columnId, targetIdx);
+      if (window.githubSync) {
+        window.githubSync.notifyCardMoved(this.draggedCardId, columnId);
+      }
       this.draggedCardId = null;
       this.render();
     });

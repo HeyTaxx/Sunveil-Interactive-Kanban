@@ -1,0 +1,19 @@
+{
+  "name": "Sunveil Interactive Kanban & Mindmap",
+  "short_name": "Sunveil Kanban",
+  "description": "Interactive Kanban Board with Visual Infinite Mindmap, Freehand Whiteboard, Live Share & GitHub Projects Integration",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0a0d14",
+  "theme_color": "#111622",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "app.ico",
+      "sizes": "256x256 128x128 64x64 48x48 32x32 16x16",
+      "type": "image/x-icon",
+      "purpose": "any maskable"
+    }
+  ]
+}
+

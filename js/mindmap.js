@@ -6,8 +6,8 @@ class MindmapEngine {
   constructor() {
     this.viewport = document.getElementById('mindmap-viewport');
     this.world = document.getElementById('mindmap-world');
-    this.nodesContainer = document.getElementById('mindmap-nodes-container');
-    this.svgContainer = document.getElementById('mindmap-connections-svg');
+    this.nodesContainer = document.getElementById('mindmap-nodes-container') || document.getElementById('mindmap-nodes');
+    this.svgContainer = document.getElementById('mindmap-connections-svg') || document.getElementById('mindmap-svg');
     this.titleInput = document.getElementById('mindmap-active-title');
     this.parentColBadge = document.getElementById('mindmap-parent-col');
     this.zoomLevelText = document.getElementById('zoom-level-text');
@@ -37,10 +37,22 @@ class MindmapEngine {
     this.initModalEvents();
   }
 
+  openCardMindmap(cardOrId) {
+    const cardId = typeof cardOrId === 'string' ? cardOrId : (cardOrId && cardOrId.id);
+    if (cardId) this.loadCard(cardId);
+  }
+
   loadCard(cardId) {
     this.currentCardId = cardId;
     const card = window.store.getCard(cardId);
     if (!card) return;
+
+    if (!this.nodesContainer) {
+      this.nodesContainer = document.getElementById('mindmap-nodes-container') || document.getElementById('mindmap-nodes');
+    }
+    if (!this.svgContainer) {
+      this.svgContainer = document.getElementById('mindmap-connections-svg') || document.getElementById('mindmap-svg');
+    }
 
     const column = window.store.data.columns.find(c => c.id === card.columnId);
     this.parentColBadge.textContent = column ? column.title : 'Kanban';
@@ -101,9 +113,11 @@ class MindmapEngine {
 
   centerViewOn(worldX, worldY) {
     const rect = this.viewport.getBoundingClientRect();
+    const width = rect.width || this.viewport.clientWidth || window.innerWidth || 1200;
+    const height = rect.height || this.viewport.clientHeight || (window.innerHeight - 94) || 800;
     this.scale = 1.0;
-    this.panX = -(worldX * this.scale) + (rect.width / 2);
-    this.panY = -(worldY * this.scale) + (rect.height / 2);
+    this.panX = -(worldX * this.scale) + (width / 2) - 100;
+    this.panY = -(worldY * this.scale) + (height / 2) - 40;
     this.updateTransform();
   }
 
@@ -518,6 +532,7 @@ class MindmapEngine {
   // Rendering & DOM Management
   // --------------------------------------------------------------------------
   renderNodes() {
+    if (!this.nodesContainer) return;
     this.nodesContainer.innerHTML = '';
     for (const node of this.nodes) {
       const nodeEl = this.createNodeElement(node);
@@ -713,6 +728,7 @@ class MindmapEngine {
   // SVG Connection Lines
   // --------------------------------------------------------------------------
   renderConnections() {
+    if (!this.svgContainer) return;
     this.svgContainer.innerHTML = '';
 
     for (const conn of this.connections) {

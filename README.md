@@ -35,40 +35,85 @@ Most task managers are either simple checklists or heavy, bloated web apps. Sunv
 
 ## Quick Start
 
-### Windows (One-Click)
+### Windows Desktop (One-Click)
 - **`Sunveil.exe`**: Double-click the native launcher (or `Start-Kanban.cmd`). It starts the application in a clean, standalone desktop window without console flashes.
 
-### Command Line (Cross-Platform: Windows, macOS, Linux)
-```bash
-# Clone the repository
-git clone https://github.com/your-username/sunveil-kanban.git
-cd sunveil-kanban
+### Windows Server (24/7 Hosting Mode)
+- **`Start-Server.cmd`**: Starts Sunveil in permanent 24/7 server mode on port `40293` with auto-shutdown disabled and production security enabled.
 
-# Start
-npm start
+### Linux & macOS Server Hosting
+```bash
+# 1. Background Daemon mode
+chmod +x server.sh
+./server.sh start
+
+# 2. Check status or logs
+./server.sh status
+./server.sh logs
+
+# 3. Stop
+./server.sh stop
 ```
-*(No `npm install` required — runs purely on the Node.js standard library).*
+
+### Docker & Docker Compose (Production Ready)
+```bash
+# Start with Docker Compose (mounts ./data for persistent boards)
+docker compose up -d
+
+# Check logs
+docker compose logs -f
+```
+
+---
+
+## 🌐 Server Hosting & Multi-Session Collaboration
+
+Sunveil can be deployed on a Linux VPS, Windows Server, Raspberry Pi, or local home server, allowing multiple team members to work concurrently on isolated boards.
+
+### Key Capabilities:
+- **Multi-Board Workspaces**: Switch between projects (e.g. Sprint 1, Marketing Roadmap, Personal Backlog) from the header dropdown without page reloads.
+- **Room-Isolated Real-Time Collaboration**: Real-time SSE updates are isolated per board room, preventing cross-board interference.
+- **24/7 Server Daemon**: Auto-shutdown watchdog is disabled in server mode (`SUNVEIL_SERVER=true` or `--server`).
+- **Timing-Safe Authentication**: Scrypt password hashing with constant-time equality comparisons (`crypto.timingSafeEqual`).
+- **Brute-Force Rate Limiting**: Exponential backoff and automatic IP lockout after 5 consecutive failed attempts.
+- **Reverse Proxy Hardened**: Full support for Nginx, Caddy, Apache, or Cloudflare with `X-Forwarded-Host`, `X-Forwarded-For`, and `X-Forwarded-Proto`.
+
+### Environment Variables:
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `SUNVEIL_SERVER` | `false` | Set to `true` to enable permanent 24/7 daemon mode. |
+| `PORT` | `40293` | Port for the HTTP server. |
+| `SUNVEIL_PASSWORD` | *(None)* | Pre-configured admin password. If omitted, prompts for initial password on first browser setup. |
+| `ALLOWED_HOSTS` | `*` | Comma-separated list of allowed host header domains/IPs, or `*` to allow all. |
+| `NODE_ENV` | `development` | Set to `production` for server deployments. |
 
 ---
 
 ## Features
 
 - **Kanban Board**: Drag-and-drop columns and cards, live card counts for notes & sketches, real-time search filter, and instant inline editing.
+- **🏢 Multi-Board Workspaces**: Create, rename, switch, and delete multiple boards with independent workflows, colors, and templates (Standard Kanban, Scrum Sprint, Simple Tasks).
+- **🐙 GitHub Projects v2 Integration (2-Way Live Sync)**: Connect directly to GitHub Projects v2 via Personal Access Token (PAT). Sync columns with GitHub Status fields, import Issues, PRs, and Draft Issues with live badges, assignees, and links. Moving or editing cards in Sunveil updates GitHub Status in real time!
 - **Visual Mindmap**: Double-click any card to open its private canvas. Connect nodes with clean curved lines that anchor to bubble borders.
 - **Freehand Whiteboard**: Pen, arrow, highlighter, and eraser tools with custom colors and stroke widths. Export any canvas as PNG.
 - **Edge-Style Tabs**: Keep the main board and multiple task mindmaps open side by side without losing state.
-- **Auto-Sync & Local Storage**: Changes save instantly to `data/kanban_data.json` and `localStorage`.
+- **🌐 Real-Time Live Share**: Collaborate simultaneously across your local network, internet, or Wi-Fi. Teammates can join instantly on laptops, iPads, or smartphones via QR code or direct link with real-time card, mindmap, and whiteboard synchronization.
+- **🔐 Hardened Authentication**: Optional for local desktop; strictly enforced in server mode with secure HTTP-only session cookies and Bearer tokens.
+- **🚀 1-Click App Install & Brand Footer**: "Made with Sunveil Interactive Kanban" footer with one-click PWA browser installation, portable desktop launcher, and quick clone commands.
+- **Auto-Sync & Local Storage**: Changes save instantly to `data/boards/<boardId>.json` and `localStorage`.
 
 ---
 
-## 🔒 Security & Local Isolation
+## 🔒 Security & Server Architecture
 
-The server runs locally on your machine and has been defensively hardened:
-- **Strict Loopback Binding (`127.0.0.1`)**: Listens only on `127.0.0.1` on a dynamic port. Never binds to `0.0.0.0` or local network adapters (cannot be accessed from other devices on your Wi-Fi/LAN).
-- **DNS Rebinding Protection**: Rejects requests with unexpected `Host` headers.
-- **Cross-Site Request Blocking**: Prevents external websites visited in your everyday browser from making cross-origin requests (`Sec-Fetch-Site: cross-site`) to read or alter your boards.
+The server runs natively with built-in defense-in-depth protection:
+- **Zero Dependencies**: Pure Node.js standard library with 0 third-party npm dependencies.
+- **Cryptographic Authentication**: Timing-safe Scrypt password hashing with constant-time equality checks.
+- **Anti-Brute Force Protection**: IP rate-limiter locks out attackers after 5 failed attempts for 15 minutes.
+- **Reverse Proxy & DNS Rebinding Hardening**: Strict Host header validation with `ALLOWED_HOSTS` support.
 - **Path Traversal Shield**: Canonical path resolution blocks `../` directory traversal and denies access to `.git`, `.env`, and session data.
-- **Payload Limits**: 25 MB payload limit prevents memory exhaustion attacks.
+- **Room Isolation**: SSE events and board updates are strictly routed only to clients connected to the same board room.
+- **Payload Limits**: 30 MB payload limit prevents memory exhaustion attacks.
 
 ---
 

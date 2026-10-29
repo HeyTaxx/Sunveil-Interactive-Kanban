@@ -1,0 +1,27 @@
+[Unit]
+Description=Sunveil Interactive Kanban & Mindmap Server
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+WorkingDirectory=/var/www/sunveil-kanban
+ExecStart=/usr/bin/node /var/www/sunveil-kanban/server.js --server
+Restart=always
+RestartSec=5
+
+# Environment Configuration
+Environment=NODE_ENV=production
+Environment=SUNVEIL_SERVER=true
+Environment=PORT=40293
+Environment=ALLOWED_HOSTS=*
+# Optional: Set fixed admin password
+# Environment=SUNVEIL_PASSWORD=YourSecurePassword123!
+
+# Security Hardening
+ProtectSystem=full
+PrivateTmp=true
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

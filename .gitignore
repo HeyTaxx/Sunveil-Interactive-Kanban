@@ -11,6 +11,7 @@ desktop.ini
 
 # Local Browser User Profile & Sessions
 data/profile/
+data/webview2_profile/
 
 # Compiled Binaries & Build Artifacts
 *.exe

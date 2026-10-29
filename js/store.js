@@ -6,6 +6,8 @@ const STORAGE_KEY = 'sunveil_kanban_mindmap_v1';
 
 class DataStore {
   constructor() {
+    this.activeBoardId = this.detectBoardId();
+    this.boardsList = [];
     this.data = this.loadFromStorage() || this.createDefaultDataset();
     this.listeners = [];
     this.saveDebounceTimer = null;
@@ -20,17 +22,40 @@ class DataStore {
     // Start background sync for external/MCP changes
     this.startLiveSync();
 
+    // Listen for URL changes via history navigation
+    window.addEventListener('popstate', () => {
+      const currentUrlBoard = this.detectBoardId();
+      if (currentUrlBoard !== this.activeBoardId) {
+        this.switchBoard(currentUrlBoard, false);
+      }
+    });
+
     // Ensure save on window close
     window.addEventListener('beforeunload', () => {
       this.saveImmediate();
     });
   }
 
+  detectBoardId() {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const b = params.get('board');
+      if (b) {
+        return b.replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 50) || 'main';
+      }
+    } catch (e) {}
+    return 'main';
+  }
+
+  getStorageKey() {
+    return `${STORAGE_KEY}_${this.activeBoardId}`;
+  }
+
   async syncFromDisk(isExternalUpdate = false) {
     if (this.isSyncing) return;
     this.isSyncing = true;
     try {
-      const res = await fetch('/api/data', { cache: 'no-store' });
+      const res = await fetch(`/api/data?boardId=${encodeURIComponent(this.activeBoardId)}`, { cache: 'no-store' });
       if (res.ok) {
         const diskData = await res.json();
         if (diskData && Array.isArray(diskData.columns) && Array.isArray(diskData.cards)) {
@@ -40,7 +65,7 @@ class DataStore {
 
           // Get latest version timestamp
           try {
-            const vRes = await fetch('/api/version', { cache: 'no-store' });
+            const vRes = await fetch(`/api/version?boardId=${encodeURIComponent(this.activeBoardId)}`, { cache: 'no-store' });
             if (vRes.ok) {
               const vData = await vRes.json();
               if (vData && vData.version) {
@@ -56,21 +81,21 @@ class DataStore {
             const activeCardId = window.tabsManager.activeTabId.replace('card-tab-', '');
             const card = this.getCard(activeCardId);
             if (card) {
-              window.mindmapApp.openCardMindmap(card);
+              window.mindmapApp.loadCard(card.id);
             }
           }
 
           if (isExternalUpdate) {
-            this.updateStatusIndicator('MCP / Disk synchronisiert');
+            this.updateStatusIndicator('Disk synchronisiert');
             const toast = document.getElementById('toast-notification');
             const msgEl = document.getElementById('toast-message');
             if (toast && msgEl) {
-              msgEl.textContent = '🤖 Board via MCP / Festplatte aktualisiert!';
+              msgEl.textContent = '🔄 Board synchronisiert!';
               toast.classList.add('visible');
               setTimeout(() => toast.classList.remove('visible'), 2000);
             }
           }
-          console.log('✅ Daten erfolgreich von lokaler Festplatte geladen.');
+          console.log(`✅ Board "${this.activeBoardId}" erfolgreich geladen.`);
         } else {
           // File does not exist on disk yet: save current default data to create it!
           this.saveImmediate();
@@ -95,11 +120,11 @@ class DataStore {
     // Skip if actively typing or saving
     if (this.isSaving || this.saveDebounceTimer || this.isSyncing) return;
     try {
-      const res = await fetch('/api/version', { cache: 'no-store' });
+      const res = await fetch(`/api/version?boardId=${encodeURIComponent(this.activeBoardId)}`, { cache: 'no-store' });
       if (res.ok) {
         const { version } = await res.json();
         if (version && this.lastLoadedVersion && version > this.lastLoadedVersion) {
-          console.log('🔄 Externe Änderung (MCP/Datei) erkannt. Lade Board neu...');
+          console.log(`🔄 Externe Änderung am Board "${this.activeBoardId}" erkannt. Lade neu...`);
           await this.syncFromDisk(true);
         } else if (version && !this.lastLoadedVersion) {
           this.lastLoadedVersion = version;
@@ -256,7 +281,11 @@ class DataStore {
 
   loadFromStorage() {
     try {
-      const raw = localStorage.getItem(STORAGE_KEY);
+      const key = this.getStorageKey();
+      let raw = localStorage.getItem(key);
+      if (!raw && this.activeBoardId === 'main') {
+        raw = localStorage.getItem(STORAGE_KEY);
+      }
       if (!raw) return null;
       return JSON.parse(raw);
     } catch (e) {
@@ -267,7 +296,11 @@ class DataStore {
 
   saveToStorage() {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(this.data));
+      const key = this.getStorageKey();
+      localStorage.setItem(key, JSON.stringify(this.data));
+      if (this.activeBoardId === 'main') {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(this.data));
+      }
     } catch (e) { }
   }
 
@@ -290,9 +323,13 @@ class DataStore {
   async saveToDisk() {
     try {
       const jsonString = JSON.stringify(this.data, null, 2);
-      const res = await fetch('/api/data', {
+      const res = await fetch(`/api/data?boardId=${encodeURIComponent(this.activeBoardId)}`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'x-client-id': (window.liveShare && window.liveShare.clientId) ? window.liveShare.clientId : '',
+          'x-board-id': this.activeBoardId
+        },
         body: jsonString,
         keepalive: true
       });
@@ -307,6 +344,119 @@ class DataStore {
       // In standalone browser mode
       this.updateStatusIndicator(window.i18n ? window.i18n.t('status_saved_local') : 'Saved (Local)');
     }
+  }
+
+  // --- Multi-Board Management Operations ---
+  async fetchBoardsList() {
+    try {
+      const res = await fetch('/api/boards', { cache: 'no-store' });
+      if (res.ok) {
+        const json = await res.json();
+        if (Array.isArray(json.boards)) {
+          this.boardsList = json.boards;
+          return this.boardsList;
+        }
+      }
+    } catch (e) {
+      console.warn('Boards-Liste konnte nicht vom Server geladen werden:', e);
+    }
+    // Fallback: local single board
+    this.boardsList = [{
+      id: 'main',
+      title: this.data.title || '🚀 Project Workspace',
+      color: '#6366f1',
+      cardCount: this.data.cards ? this.data.cards.length : 0
+    }];
+    return this.boardsList;
+  }
+
+  async createBoard(title, color = '#6366f1', template = 'standard') {
+    try {
+      const res = await fetch('/api/boards', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, color, template })
+      });
+      if (res.ok) {
+        const json = await res.json();
+        if (json.board) {
+          await this.fetchBoardsList();
+          await this.switchBoard(json.board.id);
+          return json.board;
+        }
+      }
+    } catch (e) {
+      console.error('Fehler beim Erstellen des Boards:', e);
+    }
+    return null;
+  }
+
+  async switchBoard(newBoardId, updateUrl = true) {
+    if (!newBoardId || newBoardId === this.activeBoardId) return;
+
+    // 1. Flush any pending saves on current board
+    if (this.saveDebounceTimer) {
+      clearTimeout(this.saveDebounceTimer);
+      this.saveDebounceTimer = null;
+      this.saveImmediate();
+    }
+
+    // 2. Set new board ID
+    this.activeBoardId = newBoardId.replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 50) || 'main';
+
+    // 3. Update browser URL query
+    if (updateUrl && window.history && window.history.pushState) {
+      const url = new URL(window.location.href);
+      if (this.activeBoardId === 'main') {
+        url.searchParams.delete('board');
+      } else {
+        url.searchParams.set('board', this.activeBoardId);
+      }
+      window.history.pushState({ board: this.activeBoardId }, '', url.toString());
+    }
+
+    // 4. Switch tabs back to kanban main view
+    if (window.tabsManager) {
+      window.tabsManager.switchTab('kanban-main');
+    }
+
+    // 5. Notify Live Share engine room switch
+    if (window.liveShare) {
+      window.liveShare.switchBoard(this.activeBoardId);
+    }
+
+    // 6. Load data from disk/localStorage
+    this.lastLoadedVersion = 0;
+    this.data = this.loadFromStorage() || this.createDefaultDataset();
+    await this.syncFromDisk(false);
+
+    // 7. Update UI elements
+    if (window.kanbanApp) {
+      window.kanbanApp.render();
+    }
+    this.notifyListeners();
+  }
+
+  async deleteBoard(boardId) {
+    if (boardId === 'main') {
+      alert('Das Hauptboard (main) kann nicht gelöscht werden.');
+      return false;
+    }
+    try {
+      const res = await fetch(`/api/boards?id=${encodeURIComponent(boardId)}`, {
+        method: 'DELETE'
+      });
+      if (res.ok) {
+        if (this.activeBoardId === boardId) {
+          await this.switchBoard('main');
+        }
+        await this.fetchBoardsList();
+        return true;
+      }
+    } catch (e) {
+      console.error('Fehler beim Löschen des Boards:', e);
+    }
+    return false;
   }
 
   updateStatusIndicator(text) {

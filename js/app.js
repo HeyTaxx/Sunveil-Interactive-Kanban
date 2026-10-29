@@ -296,5 +296,432 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // --- Footer Brand & Install Modal Controls ---
+  const installModal = document.getElementById('modal-install-sunveil');
+  const btnFooterBrand = document.getElementById('btn-footer-brand-install');
+  const btnCloseInstall = document.getElementById('btn-close-install-modal');
+  const btnCloseInstallFooter = document.getElementById('btn-close-install-footer');
+
+  const openInstallModal = () => {
+    if (installModal) installModal.style.display = 'flex';
+  };
+  const closeInstallModal = () => {
+    if (installModal) installModal.style.display = 'none';
+  };
+
+  if (btnFooterBrand) btnFooterBrand.addEventListener('click', openInstallModal);
+  if (btnCloseInstall) btnCloseInstall.addEventListener('click', closeInstallModal);
+  if (btnCloseInstallFooter) btnCloseInstallFooter.addEventListener('click', closeInstallModal);
+  if (installModal) {
+    installModal.addEventListener('click', (e) => {
+      if (e.target === installModal) closeInstallModal();
+    });
+  }
+
+  // PWA beforeinstallprompt handler
+  let deferredInstallPrompt = null;
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredInstallPrompt = e;
+  });
+
+  const btnInstallPwa = document.getElementById('btn-install-pwa');
+  if (btnInstallPwa) {
+    btnInstallPwa.addEventListener('click', async () => {
+      if (deferredInstallPrompt) {
+        deferredInstallPrompt.prompt();
+        const choice = await deferredInstallPrompt.userChoice;
+        if (choice && choice.outcome === 'accepted') {
+          showGlobalToast(window.i18n ? window.i18n.t('toast_app_installed') : 'Sunveil App erfolgreich installiert!');
+        }
+        deferredInstallPrompt = null;
+      } else {
+        const msg = window.i18n ? window.i18n.t('install_browser_instructions') :
+          '🚀 App-Installation im Browser:\n\n' +
+          '• Chrome & Edge (Desktop): Klicke oben rechts in der Adressleiste auf das App-Symbol (oder Menü ⋮ > "App installieren").\n' +
+          '• Safari / iPad / iPhone: Tippe unten auf das Teilen-Symbol und wähle "Zum Home-Bildschirm".\n' +
+          '• Android: Tippe im Browser-Menü auf "Zum Startbildschirm hinzufügen" oder "App installieren".';
+        alert(msg);
+      }
+    });
+  }
+
+  // Copy Git Clone Command
+  const btnCopyGitCmd = document.getElementById('btn-copy-git-cmd');
+  if (btnCopyGitCmd) {
+    btnCopyGitCmd.addEventListener('click', () => {
+      const cmd = 'git clone https://github.com/your-username/sunveil-kanban.git && cd sunveil-kanban && npm start';
+      navigator.clipboard.writeText(cmd).then(() => {
+        showGlobalToast('Git-Befehl kopiert! 📋');
+        btnCopyGitCmd.textContent = '✅ Kopiert!';
+        setTimeout(() => {
+          btnCopyGitCmd.textContent = window.i18n ? window.i18n.t('btn_copy_cmd') : '📋 Befehl kopieren';
+        }, 2000);
+      });
+    });
+  }
+
+  // Show Portable Info
+  const btnShowPortable = document.getElementById('btn-show-portable-info');
+  if (btnShowPortable) {
+    btnShowPortable.addEventListener('click', () => {
+      alert(
+        '🚀 Portable Desktop Version:\n\n' +
+        'Keine Installation nötig! Starte einfach die Datei "Start-Kanban.cmd" oder "Sunveil.exe" direkt im Ordner.\n\n' +
+        'Vorteile:\n' +
+        '• 100% lokal & privat\n' +
+        '• Unterstützt Offline-Betrieb & Festplatten-Speicherung\n' +
+        '• Integrierter Model Context Protocol (MCP) Server für KI-Assistenten'
+      );
+    });
+  }
+
+  // Open Live Share QR from Install Modal
+  const btnOpenLiveFromInstall = document.getElementById('btn-open-liveshare-from-install');
+  if (btnOpenLiveFromInstall) {
+    btnOpenLiveFromInstall.addEventListener('click', () => {
+      closeInstallModal();
+      if (window.liveShare) {
+        window.liveShare.openModal();
+      }
+    });
+  }
+
+  // --------------------------------------------------------------------------
+  // Workspace / Multi-Board Switcher UI Controller
+  // --------------------------------------------------------------------------
+  const btnWorkspaceSelect = document.getElementById('btn-workspace-selector');
+  const workspaceMenu = document.getElementById('workspace-menu');
+  const activeBoardLabel = document.getElementById('active-board-name');
+  const workspaceItemsList = document.getElementById('workspace-items-list');
+  const btnShowCreateBoard = document.getElementById('btn-show-create-board');
+  const modalCreateBoard = document.getElementById('modal-create-board');
+  const btnCloseCreateBoard = document.getElementById('btn-close-create-board');
+  const btnCancelCreateBoard = document.getElementById('btn-cancel-create-board');
+  const btnConfirmCreateBoard = document.getElementById('btn-confirm-create-board');
+  const inputNewBoardTitle = document.getElementById('new-board-title');
+  const selectNewBoardTemplate = document.getElementById('new-board-template');
+  const newBoardColorPalette = document.getElementById('new-board-color-palette');
+
+  let selectedBoardColor = '#6366f1';
+
+  async function updateWorkspaceUI() {
+    if (!workspaceItemsList) return;
+    const boards = await window.store.fetchBoardsList();
+    const currentId = window.store.activeBoardId || 'main';
+    const activeBoard = boards.find(b => b.id === currentId) || boards[0] || { title: 'Project Workspace' };
+
+    if (activeBoardLabel) {
+      activeBoardLabel.textContent = activeBoard.title;
+    }
+
+    workspaceItemsList.innerHTML = '';
+    boards.forEach(b => {
+      const itemEl = document.createElement('div');
+      itemEl.className = `workspace-item ${b.id === currentId ? 'active' : ''}`;
+      itemEl.innerHTML = `
+        <div class="workspace-item-title-group">
+          <span class="workspace-dot" style="background:${b.color || '#6366f1'};"></span>
+          <span class="workspace-item-name">${escapeHtml(b.title)}</span>
+        </div>
+        <div class="workspace-item-meta">
+          <span class="workspace-card-count">${b.cardCount !== undefined ? b.cardCount : 0}</span>
+          ${b.id !== 'main' ? `<button class="btn-delete-board-item" data-id="${b.id}" title="Board löschen">&times;</button>` : ''}
+        </div>
+      `;
+
+      itemEl.addEventListener('click', (e) => {
+        if (e.target.closest('.btn-delete-board-item')) {
+          e.stopPropagation();
+          const confirmText = window.i18n ? window.i18n.t('workspace_confirm_delete', { title: b.title }) : `Board "${b.title}" wirklich löschen?`;
+          if (confirm(confirmText)) {
+            window.store.deleteBoard(b.id).then(() => {
+              updateWorkspaceUI();
+            });
+          }
+          return;
+        }
+        window.store.switchBoard(b.id);
+        workspaceMenu.classList.remove('open');
+        updateWorkspaceUI();
+      });
+
+      workspaceItemsList.appendChild(itemEl);
+    });
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  if (btnWorkspaceSelect && workspaceMenu) {
+    btnWorkspaceSelect.addEventListener('click', (e) => {
+      e.stopPropagation();
+      workspaceMenu.classList.toggle('open');
+      if (workspaceMenu.classList.contains('open')) {
+        updateWorkspaceUI();
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.workspace-selector-dropdown')) {
+        workspaceMenu.classList.remove('open');
+      }
+    });
+  }
+
+  // Create Board Modal Handlers
+  if (btnShowCreateBoard && modalCreateBoard) {
+    btnShowCreateBoard.addEventListener('click', (e) => {
+      e.stopPropagation();
+      workspaceMenu.classList.remove('open');
+      modalCreateBoard.style.display = 'flex';
+      if (inputNewBoardTitle) {
+        inputNewBoardTitle.value = '';
+        setTimeout(() => inputNewBoardTitle.focus(), 50);
+      }
+    });
+
+    const closeCreateBoard = () => {
+      modalCreateBoard.style.display = 'none';
+    };
+
+    if (btnCloseCreateBoard) btnCloseCreateBoard.onclick = closeCreateBoard;
+    if (btnCancelCreateBoard) btnCancelCreateBoard.onclick = closeCreateBoard;
+
+    modalCreateBoard.addEventListener('click', (e) => {
+      if (e.target === modalCreateBoard) closeCreateBoard();
+    });
+
+    if (newBoardColorPalette) {
+      newBoardColorPalette.querySelectorAll('.color-dot').forEach(dot => {
+        dot.addEventListener('click', () => {
+          newBoardColorPalette.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
+          dot.classList.add('active');
+          selectedBoardColor = dot.dataset.color || '#6366f1';
+        });
+      });
+    }
+
+    if (btnConfirmCreateBoard) {
+      btnConfirmCreateBoard.addEventListener('click', async () => {
+        const title = (inputNewBoardTitle ? inputNewBoardTitle.value : '').trim();
+        if (!title) {
+          inputNewBoardTitle.focus();
+          return;
+        }
+        const template = selectNewBoardTemplate ? selectNewBoardTemplate.value : 'standard';
+        const newBoard = await window.store.createBoard(title, selectedBoardColor, template);
+        if (newBoard) {
+          closeCreateBoard();
+          updateWorkspaceUI();
+          showGlobalToast(window.i18n ? window.i18n.t('workspace_switch_success', { title }) : `Board "${title}" erstellt!`);
+        }
+      });
+    }
+  }
+
+  // Initial load of workspace data
+  updateWorkspaceUI();
+  window.store.subscribe(() => {
+    updateWorkspaceUI();
+  });
+
+  // --------------------------------------------------------------------------
+  // Server Security, Authentication & Session Controller
+  // --------------------------------------------------------------------------
+  const modalServerLogin = document.getElementById('modal-server-login');
+  const serverLoginTitle = document.getElementById('server-login-title');
+  const serverLoginDesc = document.getElementById('server-login-desc');
+  const serverLoginError = document.getElementById('server-login-error');
+  const serverPwdInput = document.getElementById('server-password-input');
+  const serverPwdConfirm = document.getElementById('server-password-confirm');
+  const groupServerSetup = document.getElementById('group-server-setup-confirm');
+  const btnSubmitServerAuth = document.getElementById('btn-submit-server-auth');
+  const btnTogglePwdVis = document.getElementById('btn-toggle-pwd-vis');
+  const serverAuthPill = document.getElementById('server-auth-pill');
+  const serverStatusLabel = document.getElementById('server-status-label');
+  const btnServerAuthAction = document.getElementById('btn-server-auth-action');
+
+  let serverAuthMode = 'login'; // 'login' | 'setup'
+
+  async function checkServerAuthStatus() {
+    try {
+      const res = await fetch('/api/auth/status', { cache: 'no-store' });
+      if (!res.ok) return;
+      const status = await res.json();
+
+      if (status.isServerMode || status.authRequired) {
+        if (serverAuthPill) {
+          serverAuthPill.style.display = 'flex';
+          if (serverStatusLabel) {
+            serverStatusLabel.textContent = status.isServerMode ? 
+              (window.i18n ? window.i18n.t('server_mode_badge') : 'Server-Modus') : 'Auth-Modus';
+          }
+        }
+      }
+
+      if (status.authRequired) {
+        if (!status.authenticated) {
+          // Show Login or Setup Modal
+          if (modalServerLogin) modalServerLogin.style.display = 'flex';
+
+          if (!status.isSetup) {
+            // First time setup mode
+            serverAuthMode = 'setup';
+            if (serverLoginTitle) serverLoginTitle.textContent = window.i18n ? window.i18n.t('server_setup_title') : '🛡️ Server-Sicherheit einrichten';
+            if (serverLoginDesc) serverLoginDesc.textContent = window.i18n ? window.i18n.t('server_setup_desc') : 'Willkommen! Bitte lege ein sicheres Admin-Passwort für diesen Server fest.';
+            if (groupServerSetup) groupServerSetup.style.display = 'block';
+            if (btnSubmitServerAuth) btnSubmitServerAuth.textContent = window.i18n ? window.i18n.t('server_btn_setup') : 'Passwort speichern & Server starten';
+          } else {
+            // Standard login mode
+            serverAuthMode = 'login';
+            if (serverLoginTitle) serverLoginTitle.textContent = window.i18n ? window.i18n.t('server_login_title') : '🔐 Server-Anmeldung';
+            if (serverLoginDesc) serverLoginDesc.textContent = window.i18n ? window.i18n.t('server_login_desc') : 'Dieser Sunveil-Server ist geschützt. Bitte gib das Passwort ein.';
+            if (groupServerSetup) groupServerSetup.style.display = 'none';
+            if (btnSubmitServerAuth) btnSubmitServerAuth.textContent = window.i18n ? window.i18n.t('server_btn_login') : 'Anmelden';
+          }
+          if (serverPwdInput) serverPwdInput.focus();
+        } else {
+          // Already authenticated!
+          if (modalServerLogin) modalServerLogin.style.display = 'none';
+          if (btnServerAuthAction) btnServerAuthAction.style.display = 'flex';
+        }
+      } else {
+        if (modalServerLogin) modalServerLogin.style.display = 'none';
+      }
+    } catch (e) {
+      console.log('Standalone / offline client mode.');
+    }
+  }
+
+  // Toggle Password Visibility
+  if (btnTogglePwdVis && serverPwdInput) {
+    btnTogglePwdVis.addEventListener('click', () => {
+      const isPwd = serverPwdInput.type === 'password';
+      serverPwdInput.type = isPwd ? 'text' : 'password';
+      btnTogglePwdVis.textContent = isPwd ? '🔒' : '👁️';
+    });
+  }
+
+  // Submit Server Authentication
+  if (btnSubmitServerAuth) {
+    btnSubmitServerAuth.addEventListener('click', async () => {
+      const pwd = (serverPwdInput ? serverPwdInput.value : '').trim();
+      if (!pwd) {
+        if (serverPwdInput) serverPwdInput.focus();
+        return;
+      }
+
+      if (serverLoginError) serverLoginError.style.display = 'none';
+
+      if (serverAuthMode === 'setup') {
+        const confirmPwd = (serverPwdConfirm ? serverPwdConfirm.value : '').trim();
+        if (pwd.length < 4) {
+          if (serverLoginError) {
+            serverLoginError.textContent = 'Das Passwort muss mindestens 4 Zeichen lang sein.';
+            serverLoginError.style.display = 'block';
+          }
+          return;
+        }
+        if (pwd !== confirmPwd) {
+          if (serverLoginError) {
+            serverLoginError.textContent = window.i18n ? window.i18n.t('server_password_mismatch') : 'Die Passwörter stimmen nicht überein.';
+            serverLoginError.style.display = 'block';
+          }
+          return;
+        }
+
+        try {
+          const res = await fetch('/api/auth/setup', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password: pwd })
+          });
+          const data = await res.json();
+          if (res.ok && data.success) {
+            if (modalServerLogin) modalServerLogin.style.display = 'none';
+            if (btnServerAuthAction) btnServerAuthAction.style.display = 'flex';
+            showGlobalToast('Admin-Passwort erfolgreich festgelegt! 🛡️');
+            await window.store.syncFromDisk(false);
+            if (window.liveShare) window.liveShare.connect();
+          } else {
+            if (serverLoginError) {
+              serverLoginError.textContent = data.message || data.error || 'Fehler beim Speichern.';
+              serverLoginError.style.display = 'block';
+            }
+          }
+        } catch (err) {
+          if (serverLoginError) {
+            serverLoginError.textContent = 'Verbindungsfehler zum Server.';
+            serverLoginError.style.display = 'block';
+          }
+        }
+      } else {
+        // Login mode
+        try {
+          const res = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password: pwd })
+          });
+          const data = await res.json();
+          if (res.ok && data.success) {
+            if (modalServerLogin) modalServerLogin.style.display = 'none';
+            if (btnServerAuthAction) btnServerAuthAction.style.display = 'flex';
+            showGlobalToast('Erfolgreich angemeldet! 🔓');
+            await window.store.syncFromDisk(false);
+            await updateWorkspaceUI();
+            if (window.liveShare) window.liveShare.connect();
+          } else {
+            if (serverLoginError) {
+              serverLoginError.textContent = data.message || (window.i18n ? window.i18n.t('server_wrong_password') : 'Ungültiges Passwort.');
+              serverLoginError.style.display = 'block';
+            }
+          }
+        } catch (err) {
+          if (serverLoginError) {
+            serverLoginError.textContent = 'Verbindungsfehler zum Server.';
+            serverLoginError.style.display = 'block';
+          }
+        }
+      }
+    });
+
+    if (serverPwdInput) {
+      serverPwdInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          btnSubmitServerAuth.click();
+        }
+      });
+    }
+    if (serverPwdConfirm) {
+      serverPwdConfirm.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          btnSubmitServerAuth.click();
+        }
+      });
+    }
+  }
+
+  // Server Logout Action
+  if (btnServerAuthAction) {
+    btnServerAuthAction.addEventListener('click', async () => {
+      const confirmMsg = window.i18n ? window.i18n.t('server_btn_logout') + '?' : 'Vom Server abmelden?';
+      if (confirm(confirmMsg)) {
+        try {
+          await fetch('/api/auth/logout', { method: 'POST' });
+        } catch (e) {}
+        window.location.reload();
+      }
+    });
+  }
+
+  // Check auth immediately
+  checkServerAuthStatus();
+
   console.log('✨ Sunveil Interactive Kanban & Mindmap ready.');
 });

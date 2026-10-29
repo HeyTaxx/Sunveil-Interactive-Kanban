@@ -97,6 +97,10 @@ class TabsManager {
         window.mindmapApp.loadCard(tabId);
       }
     }
+
+    if (window.liveShare) {
+      window.liveShare.notifyTabChange(tabId);
+    }
   }
 
   closeTab(cardId) {

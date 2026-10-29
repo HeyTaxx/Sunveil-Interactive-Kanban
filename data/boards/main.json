@@ -1,0 +1,1126 @@
+{
+  "columns": [
+    {
+      "id": "col-1793310067522",
+      "title": "Ideen",
+      "color": "#6366f1"
+    },
+    {
+      "id": "col-1793310064824",
+      "title": "Todo",
+      "color": "#38bdf8"
+    },
+    {
+      "id": "col-1793310083078",
+      "title": "Work In Progress",
+      "color": "#f59e0b"
+    },
+    {
+      "id": "col-1793310989309",
+      "title": "Pain in the Ass zum erstellen",
+      "color": "#6366f1"
+    },
+    {
+      "id": "col-1793310069524",
+      "title": "Fertig",
+      "color": "#10b981"
+    }
+  ],
+  "cards": [
+    {
+      "id": "card-1793310246646",
+      "columnId": "col-1793310067522",
+      "title": "Szenario: Küche (Der Mikrowellen-Coup)",
+      "order": 0,
+      "tags": [
+        {
+          "id": "tag-szenario",
+          "name": "Szenario",
+          "color": "#6366f1"
+        },
+        {
+          "id": "tag-kche",
+          "name": "Küche",
+          "color": "#6366f1"
+        },
+        {
+          "id": "tag-level",
+          "name": "Level",
+          "color": "#6366f1"
+        }
+      ],
+      "mindmap": {
+        "nodes": [
+          {
+            "id": "center-root",
+            "isCenter": true,
+            "title": "Szenario: Küche (Der Mikrowellen-Coup)",
+            "x": 4800,
+            "y": 4800,
+            "color": "#6366f1"
+          },
+          {
+            "id": "node-1793310246648",
+            "type": "bubble",
+            "title": "Details & Konzept",
+            "content": "Kabel kappen, Schuko-Stecker manipulieren, Müsli-Packungen als Deckung und Treppenstufen nutzen.",
+            "x": 4460,
+            "y": 4720,
+            "color": "#6366f1"
+          }
+        ],
+        "connections": [
+          {
+            "id": "conn-1793310246651",
+            "fromId": "center-root",
+            "toId": "node-1793310246648",
+            "color": "#6366f1"
+          }
+        ],
+        "drawings": []
+      }
+    },
+    {
+      "id": "card-1793310246661",
+      "columnId": "col-1793310067522",
+      "title": "Szenario: Wohnzimmer / TV-Rack",
+      "order": 1,
+      "tags": [
+        {
+          "id": "tag-szenario",
+          "name": "Szenario",
+          "color": "#6366f1"
+        },
+        {
+          "id": "tag-wohnzimmer",
+          "name": "Wohnzimmer",
+          "color": "#6366f1"
+        }
+      ],
+      "mindmap": {
+        "nodes": [
+          {
+            "id": "center-root",
+            "isCenter": true,
+            "title": "Szenario: Wohnzimmer / TV-Rack",
+            "x": 4800,
+            "y": 4800,
+            "color": "#6366f1"
+          },
+          {
+            "id": "node-1793310246663",
+            "type": "bubble",
+            "title": "Details & Konzept",
+            "content": "Konsole überbrücken, Klettern am Gamepad-Kabel, schleichender Riese auf dem Sofa, schlafender Hund als dynamisches Hindernis.",
+            "x": 4460,
+            "y": 4720,
+            "color": "#6366f1"
+          }
+        ],
+        "connections": [
+          {
+            "id": "conn-1793310246666",
+            "fromId": "center-root",
+            "toId": "node-1793310246663",
+            "color": "#6366f1"
+          }
+        ],
+        "drawings": []
+      }
+    },
+    {
+      "id": "card-1793310246676",
+      "columnId": "col-1793310067522",
+      "title": "Szenario: Werkstatt / Garage",
+      "order": 2,
+      "tags": [
+        {
+          "id": "tag-szenario",
+          "name": "Szenario",
+          "color": "#6366f1"
+        },
+        {
+          "id": "tag-garage",
+          "name": "Garage",
+          "color": "#6366f1"
+        }
+      ],
+      "mindmap": {
+        "nodes": [
+          {
+            "id": "center-root",
+            "isCenter": true,
+            "title": "Szenario: Werkstatt / Garage",
+            "x": 4800,
+            "y": 4800,
+            "color": "#6366f1"
+          },
+          {
+            "id": "node-1793310246678",
+            "type": "bubble",
+            "title": "Details & Konzept",
+            "content": "Autobatterie & Generator überbrücken, Klettern an Lochwänden und riesigen Werkzeugen (Zangen, Schraubenschlüssel, Hämmer).",
+            "x": 4460,
+            "y": 4720,
+            "color": "#6366f1"
+          }
+        ],
+        "connections": [
+          {
+            "id": "conn-1793310246681",
+            "fromId": "center-root",
+            "toId": "node-1793310246678",
+            "color": "#6366f1"
+          }
+        ],
+        "drawings": []
+      }
+    },
+    {
+      "id": "card-1793310246691",
+      "columnId": "col-1793310067522",
+      "title": "Szenario: Garten / Landezone",
+      "order": 3,
+      "tags": [
+        {
+          "id": "tag-szenario",
+          "name": "Szenario",
+          "color": "#6366f1"
+        },
+        {
+          "id": "tag-garten",
+          "name": "Garten",
+          "color": "#6366f1"
+        }
+      ],
+      "mindmap": {
+        "nodes": [
+          {
+            "id": "center-root",
+            "isCenter": true,
+            "title": "Szenario: Garten / Landezone",
+            "x": 4800,
+            "y": 4800,
+            "color": "#6366f1"
+          },
+          {
+            "id": "node-1793310246693",
+            "type": "bubble",
+            "title": "Details & Konzept",
+            "content": "UFO-Fluchtpunkt, Kabeltrommel zur Landerampe auslegen, Zaun-Infiltration unter dem Sternenhimmel.",
+            "x": 4460,
+            "y": 4720,
+            "color": "#6366f1"
+          }
+        ],
+        "connections": [
+          {
+            "id": "conn-1793310246696",
+            "fromId": "center-root",
+            "toId": "node-1793310246693",
+            "color": "#6366f1"
+          }
+        ],
+        "drawings": []
+      }
+    },
+    {
+      "id": "card-1793310246706",
+      "columnId": "col-1793310067522",
+      "title": "Mechanik: Riesen-Schlaf & Geräusch-Pegel",
+      "order": 4,
+      "tags": [
+        {
+          "id": "tag-gameplay",
+          "name": "Gameplay",
+          "color": "#6366f1"
+        },
+        {
+          "id": "tag-stealth",
+          "name": "Stealth",
+          "color": "#6366f1"
+        },
+        {
+          "id": "tag-hud",
+          "name": "HUD",
+          "color": "#6366f1"
+        }
+      ],
+      "mindmap": {
+        "nodes": [
+          {
+            "id": "center-root",
+            "isCenter": true,
+            "title": "Mechanik: Riesen-Schlaf & Geräusch-Pegel",
+            "x": 4800,
+            "y": 4800,
+            "color": "#6366f1"
+          },
+          {
+            "id": "node-1793310246708",
+            "type": "bubble",
+            "title": "Details & Konzept",
+            "content": "HUD-Balken für Schlafzustand des schlafenden Riesen und aktuellen Geräusch-/Lautstärkepegel im Raum. Bei zu viel Lärm wacht er auf!",
+            "x": 4460,
+            "y": 4720,
+            "color": "#6366f1"
+          }
+        ],
+        "connections": [
+          {
+            "id": "conn-1793310246711",
+            "fromId": "center-root",
+            "toId": "node-1793310246708",
+            "color": "#6366f1"
+          }
+        ],
+        "drawings": []
+      }
+    },
+    {
+      "id": "card-1793310246721",
+      "columnId": "col-1793310067522",
+      "title": "Mechanik: Trage-System & Physik",
+      "order": 5,
+      "tags": [
+        {
+          "id": "tag-gameplay",
+          "name": "Gameplay",
+          "color": "#6366f1"
+        },
+        {
+          "id": "tag-physik",
+          "name": "Physik",
+          "color": "#6366f1"
+        },
+        {
+          "id": "tag-koop",
+          "name": "Koop",
+          "color": "#6366f1"
+        }
+      ],
+      "mindmap": {
+        "nodes": [
+          {
+            "id": "center-root",
+            "isCenter": true,
+            "title": "Mechanik: Trage-System & Physik",
+            "x": 4800,
+            "y": 4800,
+            "color": "#6366f1"
+          },
+          {
+            "id": "node-1793310246723",
+            "type": "bubble",
+            "title": "Details & Konzept",
+            "content": "Schwere Beute (wie Mikrowellen) zwingend zu zweit tragen, um Energie zu sparen und Vorankommen zu beschleunigen.",
+            "x": 4019,
+            "y": 4597,
+            "color": "#6366f1"
+          }
+        ],
+        "connections": [
+          {
+            "id": "conn-1793310246726",
+            "fromId": "center-root",
+            "toId": "node-1793310246723",
+            "color": "#6366f1"
+          }
+        ],
+        "drawings": []
+      }
+    },
+    {
+      "id": "card-1793310246736",
+      "columnId": "col-1793310067522",
+      "title": "Klassen-Synergien (Fähigkeiten)",
+      "order": 6,
+      "tags": [
+        {
+          "id": "tag-klassen",
+          "name": "Klassen",
+          "color": "#6366f1"
+        },
+        {
+          "id": "tag-synergien",
+          "name": "Synergien",
+          "color": "#6366f1"
+        }
+      ],
+      "mindmap": {
+        "nodes": [
+          {
+            "id": "center-root",
+            "isCenter": true,
+            "title": "Klassen-Synergien (Fähigkeiten)",
+            "x": 4800,
+            "y": 4800,
+            "color": "#6366f1"
+          },
+          {
+            "id": "node-1793310246738",
+            "type": "bubble",
+            "title": "Details & Konzept",
+            "content": "• Techniker: Schuko-Stecker, Kabel überbrücken, Stromkreise kurzschließen.\n• Tooler: Mechanische Adapter, Werkzeuggürtel, schwere Props heben/montieren.\n• Scout: Fernglas, Walkie-Talkie, Sichtlinien prüfen, Vorwarnung bei Bewegungen.\n• Ablenker: Gummihuhn, Tröte, Geräusche erzeugen, um den Riesen in eine andere Richtung zu lenken.",
+            "x": 4460,
+            "y": 4720,
+            "color": "#6366f1"
+          }
+        ],
+        "connections": [
+          {
+            "id": "conn-1793310246741",
+            "fromId": "center-root",
+            "toId": "node-1793310246738",
+            "color": "#6366f1"
+          }
+        ],
+        "drawings": []
+      }
+    },
+    {
+      "id": "card-1793310246751",
+      "columnId": "col-1793310067522",
+      "title": "Visuelle Identität: Stylized 3D (No Outlines)",
+      "order": 7,
+      "tags": [
+        {
+          "id": "tag-artstyle",
+          "name": "Artstyle",
+          "color": "#6366f1"
+        },
+        {
+          "id": "tag-shading",
+          "name": "Shading",
+          "color": "#6366f1"
+        }
+      ],
+      "mindmap": {
+        "nodes": [
+          {
+            "id": "center-root",
+            "isCenter": true,
+            "title": "Visuelle Identität: Stylized 3D (No Outlines)",
+            "x": 4800,
+            "y": 4800,
+            "color": "#6366f1"
+          },
+          {
+            "id": "node-1793310246753",
+            "type": "bubble",
+            "title": "Details & Konzept",
+            "content": "Sauberer, stilisierter 3D-Look ohne schwarze Post-Processing Outlines. Reines Low-Poly / Cel-Shading mit lebendigen Farben.",
+            "x": 4460,
+            "y": 4720,
+            "color": "#6366f1"
+          }
+        ],
+        "connections": [
+          {
+            "id": "conn-1793310246756",
+            "fromId": "center-root",
+            "toId": "node-1793310246753",
+            "color": "#6366f1"
+          }
+        ],
+        "drawings": []
+      }
+    },
+    {
+      "id": "card-1793310246766",
+      "columnId": "col-1793310064824",
+      "title": "Skalierung & Größenverhältnisse korrigieren",
+      "order": 0,
+      "tags": [
+        {
+          "id": "tag-rigging",
+          "name": "Rigging",
+          "color": "#38bdf8"
+        },
+        {
+          "id": "tag-balancing",
+          "name": "Balancing",
+          "color": "#38bdf8"
+        },
+        {
+          "id": "tag-models",
+          "name": "Models",
+          "color": "#38bdf8"
+        }
+      ],
+      "mindmap": {
+        "nodes": [
+          {
+            "id": "center-root",
+            "isCenter": true,
+            "title": "Skalierung & Größenverhältnisse korrigieren",
+            "x": 4800,
+            "y": 4800,
+            "color": "#38bdf8"
+          },
+          {
+            "id": "node-1793310246768",
+            "type": "bubble",
+            "title": "Details & Konzept",
+            "content": "Größenmaßstab fixieren: Aliens müssen exakt halb so groß wie ein Mensch/Spieler sein (ca. Knie- bis Hüfthöhe, keine winzigen Ameisen).",
+            "x": 4041,
+            "y": 4599,
+            "color": "#38bdf8"
+          }
+        ],
+        "connections": [
+          {
+            "id": "conn-1793310246771",
+            "fromId": "center-root",
+            "toId": "node-1793310246768",
+            "color": "#38bdf8"
+          }
+        ],
+        "drawings": []
+      }
+    },
+    {
+      "id": "card-1793310246781",
+      "columnId": "col-1793310989309",
+      "title": "3D-Assets: Augen-System & Lider",
+      "order": 0,
+      "tags": [
+        {
+          "id": "tag-3dasset",
+          "name": "3D-Asset",
+          "color": "#38bdf8"
+        },
+        {
+          "id": "tag-animation",
+          "name": "Animation",
+          "color": "#38bdf8"
+        },
+        {
+          "id": "tag-rigging",
+          "name": "Rigging",
+          "color": "#38bdf8"
+        }
+      ],
+      "mindmap": {
+        "nodes": [
+          {
+            "id": "center-root",
+            "isCenter": true,
+            "title": "3D-Assets: Augen-System & Lider",
+            "x": 4800,
+            "y": 4800,
+            "color": "#38bdf8"
+          },
+          {
+            "id": "node-1793310246783",
+            "type": "bubble",
+            "title": "Details & Konzept",
+            "content": "3D-Augapfel mit animierten / riggbaren Lidern (offen, halb geöffnet, geschlossen) basierend auf der Kugel-Referenz.",
+            "x": 4052,
+            "y": 4587,
+            "color": "#38bdf8"
+          }
+        ],
+        "connections": [
+          {
+            "id": "conn-1793310246786",
+            "fromId": "center-root",
+            "toId": "node-1793310246783",
+            "color": "#38bdf8"
+          }
+        ],
+        "drawings": []
+      }
+    },
+    {
+      "id": "card-1793310246796",
+      "columnId": "col-1793310989309",
+      "title": "Mund-Spritesheet & Shadersystem",
+      "order": 1,
+      "tags": [
+        {
+          "id": "tag-shader",
+          "name": "Shader",
+          "color": "#38bdf8"
+        },
+        {
+          "id": "tag-animation",
+          "name": "Animation",
+          "color": "#38bdf8"
+        },
+        {
+          "id": "tag-face",
+          "name": "Face",
+          "color": "#38bdf8"
+        }
+      ],
+      "mindmap": {
+        "nodes": [
+          {
+            "id": "center-root",
+            "isCenter": true,
+            "title": "Mund-Spritesheet & Shadersystem",
+            "x": 4800,
+            "y": 4800,
+            "color": "#38bdf8"
+          },
+          {
+            "id": "node-1793310246798",
+            "type": "bubble",
+            "title": "Details & Konzept",
+            "content": "Textur-/Shader-Wechsel für Mund-Formen (Neutral, Parted, Wide Open, Round O, Happy Smile) implementieren.",
+            "x": 4460,
+            "y": 4720,
+            "color": "#38bdf8"
+          }
+        ],
+        "connections": [
+          {
+            "id": "conn-1793310246801",
+            "fromId": "center-root",
+            "toId": "node-1793310246798",
+            "color": "#38bdf8"
+          }
+        ],
+        "drawings": []
+      }
+    },
+    {
+      "id": "card-1793310246811",
+      "columnId": "col-1793310064824",
+      "title": "Alien-Meshes bereinigen (Kahle Köpfe)",
+      "order": 1,
+      "tags": [
+        {
+          "id": "tag-3dmodel",
+          "name": "3D-Model",
+          "color": "#38bdf8"
+        },
+        {
+          "id": "tag-meshes",
+          "name": "Meshes",
+          "color": "#38bdf8"
+        }
+      ],
+      "mindmap": {
+        "nodes": [
+          {
+            "id": "center-root",
+            "isCenter": true,
+            "title": "Alien-Meshes bereinigen (Kahle Köpfe)",
+            "x": 4800,
+            "y": 4800,
+            "color": "#38bdf8"
+          },
+          {
+            "id": "node-1793310246813",
+            "type": "bubble",
+            "title": "Details & Konzept",
+            "content": "Mützen-Meshes komplett entfernen; kahle, birnenförmige Köpfe als einheitliche Basis für alle 4 Klassen verwenden.",
+            "x": 4460,
+            "y": 4720,
+            "color": "#38bdf8"
+          }
+        ],
+        "connections": [
+          {
+            "id": "conn-1793310246816",
+            "fromId": "center-root",
+            "toId": "node-1793310246813",
+            "color": "#38bdf8"
+          }
+        ],
+        "drawings": []
+      }
+    },
+    {
+      "id": "card-1793310246826",
+      "columnId": "col-1793310064824",
+      "title": "HUD & UI: Klassen-, Geräusch- & Hotbar-Anzeigen",
+      "order": 2,
+      "tags": [
+        {
+          "id": "tag-ui",
+          "name": "UI",
+          "color": "#38bdf8"
+        },
+        {
+          "id": "tag-hud",
+          "name": "HUD",
+          "color": "#38bdf8"
+        },
+        {
+          "id": "tag-interface",
+          "name": "Interface",
+          "color": "#38bdf8"
+        }
+      ],
+      "mindmap": {
+        "nodes": [
+          {
+            "id": "center-root",
+            "isCenter": true,
+            "title": "HUD & UI: Klassen-, Geräusch- & Hotbar-Anzeigen",
+            "x": 4800,
+            "y": 4800,
+            "color": "#38bdf8"
+          },
+          {
+            "id": "node-1793310246828",
+            "type": "bubble",
+            "title": "Details & Konzept",
+            "content": "• Klassenanzeige oben links (Porträts, Health/Energy-Bars).\n• Schleichen- & Geräuschanzeige oben zentriert.\n• Interaktions-Prompts ([E] Klettern, [E] Ziehen, [E] Kabel kappen).\n• Hotbar unten rechts für Utility-Gegenstände (Spitzhacke, Dose, Hupe/Tröte etc.).",
+            "x": 4460,
+            "y": 4720,
+            "color": "#38bdf8"
+          }
+        ],
+        "connections": [
+          {
+            "id": "conn-1793310246831",
+            "fromId": "center-root",
+            "toId": "node-1793310246828",
+            "color": "#38bdf8"
+          }
+        ],
+        "drawings": []
+      }
+    },
+    {
+      "id": "card-1793310246841",
+      "columnId": "col-1793310083078",
+      "title": "Multiplayer: Netcode & Physik-Synchronisation",
+      "order": 0,
+      "tags": [
+        {
+          "id": "tag-multiplayer",
+          "name": "Multiplayer",
+          "color": "#f59e0b"
+        },
+        {
+          "id": "tag-netcode",
+          "name": "Netcode",
+          "color": "#f59e0b"
+        },
+        {
+          "id": "tag-physik",
+          "name": "Physik",
+          "color": "#f59e0b"
+        }
+      ],
+      "mindmap": {
+        "nodes": [
+          {
+            "id": "center-root",
+            "isCenter": true,
+            "title": "Multiplayer: Netcode & Physik-Synchronisation",
+            "x": 4800,
+            "y": 4800,
+            "color": "#f59e0b"
+          },
+          {
+            "id": "node-1793310246843",
+            "type": "bubble",
+            "title": "Details & Konzept",
+            "content": "Server-authoritative Logik für Physik-Interaktionen und synchrone Objektbewegungen der getragenen Gegenstände.",
+            "x": 4460,
+            "y": 4720,
+            "color": "#f59e0b"
+          }
+        ],
+        "connections": [
+          {
+            "id": "conn-1793310246846",
+            "fromId": "center-root",
+            "toId": "node-1793310246843",
+            "color": "#f59e0b"
+          }
+        ],
+        "drawings": []
+      }
+    },
+    {
+      "id": "card-1793310246856",
+      "columnId": "col-1793310083078",
+      "title": "Performance: GPU Occlusion Culling & LOD",
+      "order": 1,
+      "tags": [
+        {
+          "id": "tag-performance",
+          "name": "Performance",
+          "color": "#f59e0b"
+        },
+        {
+          "id": "tag-culling",
+          "name": "Culling",
+          "color": "#f59e0b"
+        }
+      ],
+      "mindmap": {
+        "nodes": [
+          {
+            "id": "center-root",
+            "isCenter": true,
+            "title": "Performance: GPU Occlusion Culling & LOD",
+            "x": 4800,
+            "y": 4800,
+            "color": "#f59e0b"
+          },
+          {
+            "id": "node-1793310246858",
+            "type": "bubble",
+            "title": "Details & Konzept",
+            "content": "GPU Frustum & Occlusion Culling für Innenräume (Room/Portal-System zur Reduzierung von Draw Calls). Feste, einheitliche Hitboxen/Collider.",
+            "x": 4460,
+            "y": 4720,
+            "color": "#f59e0b"
+          }
+        ],
+        "connections": [
+          {
+            "id": "conn-1793310246861",
+            "fromId": "center-root",
+            "toId": "node-1793310246858",
+            "color": "#f59e0b"
+          }
+        ],
+        "drawings": []
+      }
+    },
+    {
+      "id": "card-1793310246871",
+      "columnId": "col-1793310069524",
+      "title": "Level-Prototyping & First-Person POV",
+      "order": 0,
+      "tags": [
+        {
+          "id": "tag-leveldesign",
+          "name": "Level-Design",
+          "color": "#f59e0b"
+        },
+        {
+          "id": "tag-prototyping",
+          "name": "Prototyping",
+          "color": "#f59e0b"
+        },
+        {
+          "id": "tag-pov",
+          "name": "POV",
+          "color": "#f59e0b"
+        }
+      ],
+      "mindmap": {
+        "nodes": [
+          {
+            "id": "center-root",
+            "isCenter": true,
+            "title": "Level-Prototyping & First-Person POV",
+            "x": 4800,
+            "y": 4800,
+            "color": "#f59e0b"
+          },
+          {
+            "id": "node-1793310246873",
+            "type": "bubble",
+            "title": "Details & Konzept",
+            "content": "Test-Whitebox (Blockout) mit Rampen, Blöcken und Test-Props (Mikrowelle). First-Person-Hände / POV-Perspektive final abstimmen.",
+            "x": 4460,
+            "y": 4720,
+            "color": "#f59e0b"
+          }
+        ],
+        "connections": [
+          {
+            "id": "conn-1793310246876",
+            "fromId": "center-root",
+            "toId": "node-1793310246873",
+            "color": "#f59e0b"
+          }
+        ],
+        "drawings": []
+      }
+    },
+    {
+      "id": "card-1793310246886",
+      "columnId": "col-1793310083078",
+      "title": "Loadingscreen: UFO TO GO Art & Animation",
+      "order": 2,
+      "tags": [
+        {
+          "id": "tag-ui",
+          "name": "UI",
+          "color": "#f59e0b"
+        },
+        {
+          "id": "tag-polishing",
+          "name": "Polishing",
+          "color": "#f59e0b"
+        },
+        {
+          "id": "tag-graphics",
+          "name": "Graphics",
+          "color": "#f59e0b"
+        }
+      ],
+      "mindmap": {
+        "nodes": [
+          {
+            "id": "center-root",
+            "isCenter": true,
+            "title": "Loadingscreen: UFO TO GO Art & Animation",
+            "x": 4800,
+            "y": 4800,
+            "color": "#f59e0b"
+          },
+          {
+            "id": "node-1793310246888",
+            "type": "bubble",
+            "title": "Details & Konzept",
+            "content": "Pixelgenauer Loadingscreen mit dynamischem gelben Kabel-Fortschrittsbalken, Schukostecker, rotierenden Tipps und 4K-Artwork.",
+            "x": 4021,
+            "y": 4644,
+            "color": "#f59e0b"
+          }
+        ],
+        "connections": [
+          {
+            "id": "conn-1793310246891",
+            "fromId": "center-root",
+            "toId": "node-1793310246888",
+            "color": "#f59e0b"
+          }
+        ],
+        "drawings": []
+      }
+    },
+    {
+      "id": "card-1793310246901",
+      "columnId": "col-1793310069524",
+      "title": "Projekt-Setup & Studio-Branding",
+      "order": 1,
+      "tags": [
+        {
+          "id": "tag-branding",
+          "name": "Branding",
+          "color": "#10b981"
+        },
+        {
+          "id": "tag-setup",
+          "name": "Setup",
+          "color": "#10b981"
+        }
+      ],
+      "mindmap": {
+        "nodes": [
+          {
+            "id": "center-root",
+            "isCenter": true,
+            "title": "Projekt-Setup & Studio-Branding",
+            "x": 4800,
+            "y": 4800,
+            "color": "#10b981"
+          },
+          {
+            "id": "node-1793310246903",
+            "type": "bubble",
+            "title": "Details & Konzept",
+            "content": "Studio-Name: Sunveil Interactive festgelegt. Spiel-Titel: UFO TO GO finalisiert.",
+            "x": 4046,
+            "y": 4550,
+            "color": "#10b981"
+          }
+        ],
+        "connections": [
+          {
+            "id": "conn-1793310246906",
+            "fromId": "center-root",
+            "toId": "node-1793310246903",
+            "color": "#10b981"
+          }
+        ],
+        "drawings": []
+      }
+    },
+    {
+      "id": "card-1793310246916",
+      "columnId": "col-1793310069524",
+      "title": "Klassen-Konzept & Rollen",
+      "order": 2,
+      "tags": [
+        {
+          "id": "tag-gamedesign",
+          "name": "Game-Design",
+          "color": "#10b981"
+        },
+        {
+          "id": "tag-klassen",
+          "name": "Klassen",
+          "color": "#10b981"
+        }
+      ],
+      "mindmap": {
+        "nodes": [
+          {
+            "id": "center-root",
+            "isCenter": true,
+            "title": "Klassen-Konzept & Rollen",
+            "x": 4800,
+            "y": 4800,
+            "color": "#10b981"
+          },
+          {
+            "id": "node-1793310246918",
+            "type": "bubble",
+            "title": "Details & Konzept",
+            "content": "4 Klassen definiert: Techniker, Tooler, Scout, Ablenker.",
+            "x": 4460,
+            "y": 4720,
+            "color": "#10b981"
+          }
+        ],
+        "connections": [
+          {
+            "id": "conn-1793310246921",
+            "fromId": "center-root",
+            "toId": "node-1793310246918",
+            "color": "#10b981"
+          }
+        ],
+        "drawings": []
+      }
+    },
+    {
+      "id": "card-1793310246931",
+      "columnId": "col-1793310069524",
+      "title": "Design-Vorgaben & Beleuchtung",
+      "order": 3,
+      "tags": [
+        {
+          "id": "tag-artdirection",
+          "name": "Art-Direction",
+          "color": "#10b981"
+        },
+        {
+          "id": "tag-lighting",
+          "name": "Lighting",
+          "color": "#10b981"
+        }
+      ],
+      "mindmap": {
+        "nodes": [
+          {
+            "id": "center-root",
+            "isCenter": true,
+            "title": "Design-Vorgaben & Beleuchtung",
+            "x": 4800,
+            "y": 4800,
+            "color": "#10b981"
+          },
+          {
+            "id": "node-1793310246933",
+            "type": "bubble",
+            "title": "Details & Konzept",
+            "content": "Verzicht auf schwarze Post-Processing-Outlines. Nacht-Setting mit bläulichem Mondlicht als Standard-Atmosphäre.",
+            "x": 4460,
+            "y": 4720,
+            "color": "#10b981"
+          }
+        ],
+        "connections": [
+          {
+            "id": "conn-1793310246936",
+            "fromId": "center-root",
+            "toId": "node-1793310246933",
+            "color": "#10b981"
+          }
+        ],
+        "drawings": []
+      }
+    },
+    {
+      "id": "card-1793311017114",
+      "columnId": "col-1793310067522",
+      "title": "Übers Tablet Mmodelieren",
+      "order": 8,
+      "tags": [],
+      "mindmap": {
+        "nodes": [
+          {
+            "id": "center-root",
+            "isCenter": true,
+            "type": "bubble",
+            "title": "Übers Tablet Mmodelieren",
+            "content": "Doppelklicke hier oder nutze die Werkzeuge links, um Gedanken, Skizzen und Links zu verknüpfen.",
+            "x": 4800,
+            "y": 4800,
+            "color": "#6366f1"
+          },
+          {
+            "id": "node-1793311020756",
+            "type": "bubble",
+            "title": "App Name",
+            "content": "Nomad Sculpt",
+            "x": 5423,
+            "y": 4949.5,
+            "color": "#38bdf8"
+          }
+        ],
+        "connections": [
+          {
+            "id": "conn-1793311020756",
+            "fromId": "center-root",
+            "toId": "node-1793311020756",
+            "color": "#38bdf8"
+          }
+        ],
+        "drawings": []
+      }
+    },
+    {
+      "id": "card-1793311127567",
+      "columnId": "col-1793310064824",
+      "title": "Modelle verbessern",
+      "order": 3,
+      "tags": [],
+      "mindmap": {
+        "nodes": [
+          {
+            "id": "center-root",
+            "isCenter": true,
+            "type": "bubble",
+            "title": "Modelle verbessern",
+            "content": "Doppelklicke hier oder nutze die Werkzeuge links, um Gedanken, Skizzen und Links zu verknüpfen.",
+            "x": 4800,
+            "y": 4800,
+            "color": "#6366f1"
+          }
+        ],
+        "connections": [],
+        "drawings": []
+      }
+    },
+    {
+      "id": "card-1793311583288",
+      "columnId": "col-1793310067522",
+      "title": "Controller Support",
+      "order": 9,
+      "tags": [],
+      "mindmap": {
+        "nodes": [
+          {
+            "id": "center-root",
+            "isCenter": true,
+            "type": "bubble",
+            "title": "Controller Support",
+            "content": "Doppelklicke hier oder nutze die Werkzeuge links, um Gedanken, Skizzen und Links zu verknüpfen.",
+            "x": 4800,
+            "y": 4800,
+            "color": "#6366f1"
+          }
+        ],
+        "connections": [],
+        "drawings": []
+      }
+    }
+  ]
+}
